@@ -1,35 +1,33 @@
 'use client';
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Sparkles, ArrowRight } from "lucide-react";
-import contentData from "@/data/content.json";
-import { getLiveContent } from "@/lib/api-client";
+import { useCMSContent } from "@/core/CMSContentContext";
 
 interface HeroProps {
   onOpenCourseModal?: () => void;
 }
 
 export function Hero({ onOpenCourseModal }: HeroProps) {
-  const [heroContent, setHeroContent] = useState(contentData.hero);
-
-  useEffect(() => {
-    async function loadLive() {
-      try {
-        const live = await getLiveContent();
-        if (live?.hero) {
-          setHeroContent((prev) => ({ ...prev, ...live.hero }));
-        }
-      } catch (err) {
-        console.warn("Using local hero content fallback:", err);
-      }
-    }
-    loadLive();
-  }, []);
+  const { content } = useCMSContent();
+  const heroContent = content.hero || {};
 
   const bgImage = heroContent.backgroundImage || '/assets/images/favicon.png';
   const blurAmount = heroContent.backgroundBlur ?? 32;
   const opacityVal = (heroContent.backgroundOpacity ?? 20) / 100;
+
+  const primaryCtaText = heroContent.primaryCtaText || 'Access AI Courses (Free)';
+  const primaryCtaLink = heroContent.primaryCtaLink || 'https://urdhv-viewer.pages.dev';
+  const primaryCtaAction = heroContent.primaryCtaAction || 'modal';
+  const secondaryCtaText = heroContent.secondaryCtaText || 'Discuss a Project';
+  const secondaryCtaLink = heroContent.secondaryCtaLink || '#contact';
+
+  const handlePrimaryClick = (e: React.MouseEvent) => {
+    if (primaryCtaAction === 'modal' && onOpenCourseModal) {
+      e.preventDefault();
+      onOpenCourseModal();
+    }
+  };
 
   return (
     <section className="min-h-[85vh] flex items-center justify-center pt-24 pb-16 relative overflow-hidden bg-black text-white">
@@ -64,21 +62,34 @@ export function Hero({ onOpenCourseModal }: HeroProps) {
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-          {/* Free Course Entry Modal Trigger */}
-          <button
-            onClick={onOpenCourseModal}
-            className="w-full sm:w-auto px-8 py-4 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold text-sm uppercase tracking-wider transition-all flex items-center justify-center space-x-2.5"
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>Access AI Courses (Free)</span>
-            <ArrowRight className="w-4 h-4 ml-1" />
-          </button>
+          {/* Primary CTA (Free Course Entry Modal or Direct Link) */}
+          {primaryCtaAction === 'modal' ? (
+            <button
+              onClick={handlePrimaryClick}
+              className="w-full sm:w-auto px-8 py-4 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold text-sm uppercase tracking-wider transition-all flex items-center justify-center space-x-2.5"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>{primaryCtaText}</span>
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </button>
+          ) : (
+            <a
+              href={primaryCtaLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-8 py-4 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold text-sm uppercase tracking-wider transition-all flex items-center justify-center space-x-2.5"
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>{primaryCtaText}</span>
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </a>
+          )}
 
           <Link 
-            href="#contact" 
+            href={secondaryCtaLink} 
             className="w-full sm:w-auto px-8 py-4 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white border border-zinc-800 font-semibold text-sm transition-all hover:border-zinc-700"
           >
-            Discuss a Project
+            {secondaryCtaText}
           </Link>
 
           <Link 

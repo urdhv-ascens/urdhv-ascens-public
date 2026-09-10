@@ -12,49 +12,28 @@ import {
   Play
 } from 'lucide-react';
 import contentData from "@/data/content.json";
-import { getLiveContent } from "@/lib/api-client";
+import { useCMSContent } from "@/core/CMSContentContext";
 import type { ProjectItem } from "@/core/types";
 
 export function Projects() {
-  const [projectsMeta, setProjectsMeta] = useState((contentData as any).projects || {
+  const { content } = useCMSContent();
+  const projectsMeta = content.projects || (contentData as any).projects || {
     tagline: "SELECTED WORK",
     title: "Curated Projects",
     description: "Digital systems and client flagship productions delivered with precision.",
     intervalSeconds: 5,
     autoPlay: true
-  });
+  };
 
-  const [projects, setProjects] = useState<ProjectItem[]>(
-    ((contentData as any).projectsList || []).filter((p: any) => p.status === 'ACTIVE')
-  );
+  const rawProjects = Array.isArray(content.projectsList) && content.projectsList.length > 0
+    ? content.projectsList
+    : ((contentData as any).projectsList || []);
+  const projects: ProjectItem[] = (rawProjects as any[]).filter((p: any) => p.status === 'ACTIVE');
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0); // 0 to 100%
   const [isTransitioning, setIsTransitioning] = useState(false);
-
-  // Hydrate live from Hostinger API
-  useEffect(() => {
-    async function loadLive() {
-      try {
-        const content = await getLiveContent();
-        if (content) {
-          if ((content as any).projects) {
-            setProjectsMeta((content as any).projects);
-          }
-          if (content.projectsList && Array.isArray(content.projectsList)) {
-            const active = content.projectsList.filter((p: any) => p.status === 'ACTIVE');
-            if (active.length > 0) {
-              setProjects(active);
-            }
-          }
-        }
-      } catch (err) {
-        console.warn('Using bundled projects fallback:', err);
-      }
-    }
-    loadLive();
-  }, []);
 
   const total = projects.length;
   const intervalDurationMs = Math.max((projectsMeta.intervalSeconds || 5) * 1000, 2000);

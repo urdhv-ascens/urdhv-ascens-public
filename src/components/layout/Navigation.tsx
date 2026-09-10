@@ -4,10 +4,19 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useCMSContent } from '@/core/CMSContentContext';
+
+const DEFAULT_NAV_LINKS = [
+  { label: 'Capabilities', href: '/#capabilities' },
+  { label: 'Services', href: '/#services' },
+  { label: 'Work', href: '/#projects' },
+  { label: 'Contact', href: '/#contact' },
+];
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { content } = useCMSContent();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,12 +26,12 @@ export function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { label: 'Capabilities', href: '/#capabilities' },
-    { label: 'Services', href: '/#services' },
-    { label: 'Work', href: '/#projects' },
-    { label: 'Contact', href: '/#contact' },
-  ];
+  const navLinks = content.navigation?.links?.length ? content.navigation.links : DEFAULT_NAV_LINKS;
+  const brandTitle = content.navigation?.brandTitle || content.siteSettings?.companyName || 'ŪRDHV ASCENS';
+  const logoUrl = content.navigation?.logoUrl || content.siteSettings?.logoUrl || '/logo.png';
+  const viewerUrl = content.siteSettings?.viewerUrl || 'https://urdhv-viewer.pages.dev';
+  const courseBtn = content.navigation?.courseButton || { text: 'AI Courses (Free)', href: viewerUrl };
+  const ctaBtn = content.navigation?.ctaButton || { text: 'Discuss Project', href: '/#contact' };
 
   return (
     <header
@@ -35,9 +44,15 @@ export function Navigation() {
     >
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5 group">
-          <img src="/logo.png" alt="Ūrdhv Ascens" className="h-8 w-auto object-contain transition-transform group-hover:scale-105" />
+          <img src={logoUrl} alt={brandTitle} className="h-8 w-auto object-contain transition-transform group-hover:scale-105" />
           <span className="text-xl sm:text-2xl font-black tracking-widest uppercase text-white">
-            ŪRDHV <span className="text-emerald-400">ASCENS</span>
+            {brandTitle.includes(' ') ? (
+              <>
+                {brandTitle.split(' ')[0]} <span className="text-emerald-400">{brandTitle.split(' ').slice(1).join(' ')}</span>
+              </>
+            ) : (
+              <span className="text-emerald-400">{brandTitle}</span>
+            )}
           </span>
         </Link>
 
@@ -53,22 +68,26 @@ export function Navigation() {
             </Link>
           ))}
 
-          <a
-            href="https://urdhv-viewer.pages.dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 text-xs font-semibold uppercase tracking-wider transition-all"
-          >
-            <Sparkles className="w-3 h-3" />
-            <span>AI Courses (Free)</span>
-          </a>
+          {courseBtn?.text && (
+            <a
+              href={courseBtn.href || viewerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 text-xs font-semibold uppercase tracking-wider transition-all"
+            >
+              <Sparkles className="w-3 h-3" />
+              <span>{courseBtn.text}</span>
+            </a>
+          )}
 
-          <Link
-            href="/#contact"
-            className="px-5 py-2 text-xs font-bold uppercase tracking-wider bg-emerald-400 text-black rounded-lg hover:bg-emerald-300 transition-colors"
-          >
-            Discuss Project
-          </Link>
+          {ctaBtn?.text && (
+            <Link
+              href={ctaBtn.href || '/#contact'}
+              className="px-5 py-2 text-xs font-bold uppercase tracking-wider bg-emerald-400 text-black rounded-lg hover:bg-emerald-300 transition-colors"
+            >
+              {ctaBtn.text}
+            </Link>
+          )}
         </nav>
 
         {/* Mobile Nav Toggle */}
@@ -94,21 +113,27 @@ export function Navigation() {
               {link.label}
             </Link>
           ))}
-          <a
-            href="https://urdhv-viewer.pages.dev"
-            className="text-sm font-semibold uppercase tracking-wider py-2 text-emerald-400 flex items-center space-x-2"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>AI Courses Library</span>
-          </a>
-          <Link
-            href="/#contact"
-            className="mt-2 px-6 py-3 text-center text-xs font-bold uppercase tracking-wider bg-emerald-400 text-black rounded-lg hover:bg-emerald-300"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Discuss Project
-          </Link>
+          {courseBtn?.text && (
+            <a
+              href={courseBtn.href || viewerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-semibold uppercase tracking-wider py-2 text-emerald-400 flex items-center space-x-2"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Sparkles className="w-4 h-4" />
+              <span>{courseBtn.text}</span>
+            </a>
+          )}
+          {ctaBtn?.text && (
+            <Link
+              href={ctaBtn.href || '/#contact'}
+              className="mt-2 px-6 py-3 text-center text-xs font-bold uppercase tracking-wider bg-emerald-400 text-black rounded-lg hover:bg-emerald-300"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {ctaBtn.text}
+            </Link>
+          )}
         </div>
       )}
     </header>

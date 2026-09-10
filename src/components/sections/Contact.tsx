@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
 import contentData from "@/data/content.json";
+import { useCMSContent } from "@/core/CMSContentContext";
 
 export function Contact() {
-  const { contact } = contentData;
+  const { content } = useCMSContent();
+  const contact = content.contact || contentData.contact;
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -42,7 +44,7 @@ export function Contact() {
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
           <div className="flex flex-col gap-10">
             <div>
-              <h3 className="text-2xl sm:text-3xl font-bold leading-tight mb-6 text-white" dangerouslySetInnerHTML={{ __html: contact.heading.replace(/\n/g, '<br/>') }} />
+              <h3 className="text-2xl sm:text-3xl font-bold leading-tight mb-6 text-white" dangerouslySetInnerHTML={{ __html: (contact.heading || '').replace(/\n/g, '<br/>') }} />
               <p className="text-zinc-400 text-base sm:text-lg leading-relaxed">
                 {contact.description}
               </p>
@@ -53,14 +55,21 @@ export function Contact() {
                 <div className="p-3 bg-zinc-900 border border-zinc-800 rounded-lg shrink-0">
                   <Mail className="w-5 h-5 text-emerald-400" />
                 </div>
-                <span className="text-base font-mono text-zinc-300">{contact.email}</span>
+                <a href={`mailto:${contact.email}`} className="text-base font-mono text-zinc-300 hover:text-emerald-400 transition-colors">
+                  {contact.email}
+                </a>
               </div>
               
               <div className="flex items-center gap-4">
                 <div className="p-3 bg-zinc-900 border border-zinc-850 rounded-lg shrink-0">
                   <Phone className="w-5 h-5 text-emerald-400" />
                 </div>
-                <span className="text-base font-mono text-zinc-300">{contact.phone}</span>
+                <div className="flex flex-col">
+                  <span className="text-base font-mono text-zinc-300">{contact.phone}</span>
+                  {contact.secondaryPhone && (
+                    <span className="text-xs font-mono text-zinc-500">{contact.secondaryPhone}</span>
+                  )}
+                </div>
               </div>
               
               <div className="flex items-center gap-4">
@@ -69,6 +78,15 @@ export function Contact() {
                 </div>
                 <span className="text-base font-mono text-zinc-300">{contact.location}</span>
               </div>
+
+              {contact.responseTime && (
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-zinc-900 border border-zinc-850 rounded-lg shrink-0">
+                    <Clock className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <span className="text-xs font-mono text-emerald-400">{contact.responseTime}</span>
+                </div>
+              )}
             </div>
           </div>
           

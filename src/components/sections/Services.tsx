@@ -8,7 +8,7 @@ import {
   Sparkles 
 } from 'lucide-react';
 import contentData from "@/data/content.json";
-import { getLiveContent } from "@/lib/api-client";
+import { useCMSContent } from "@/core/CMSContentContext";
 
 interface ServiceCardItem {
   id: string;
@@ -223,34 +223,16 @@ export function Services({
 }: {
   onOpenCourseModal?: () => void;
 }) {
-  const [servicesData, setServicesData] = useState(contentData.services || {
+  const { content } = useCMSContent();
+  const servicesData = content.services || contentData.services || {
     tagline: 'HOW WE SERVE',
     title: 'Precision Services',
     description: 'Tailored engagements engineered from foundational concept to enterprise execution.',
     list: []
-  });
+  };
 
-  const [items, setItems] = useState<ServiceCardItem[]>(
-    ((contentData.services.list || []) as any[]).filter((s: any) => s.active !== false)
-  );
-
-  useEffect(() => {
-    async function loadLive() {
-      try {
-        const live = await getLiveContent();
-        if (live && live.services) {
-          setServicesData(live.services as any);
-          if (Array.isArray(live.services.list) && live.services.list.length > 0) {
-            const activeList = live.services.list.filter((s: any) => s.active !== false);
-            setItems(activeList);
-          }
-        }
-      } catch (err) {
-        console.warn("Using bundled services fallback:", err);
-      }
-    }
-    loadLive();
-  }, []);
+  const rawList = Array.isArray(servicesData.list) ? servicesData.list : (contentData.services?.list || []);
+  const items: ServiceCardItem[] = (rawList as any[]).filter((s: any) => s.active !== false);
 
   // Split into two balanced tracks
   const half = Math.ceil(items.length / 2);

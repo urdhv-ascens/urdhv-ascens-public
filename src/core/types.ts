@@ -138,15 +138,52 @@ export interface LocalizedString {
   hi?: string;
 }
 
+export interface NavigationLink {
+  label: string;
+  href: string;
+}
+
+export interface NavigationConfig {
+  logoUrl?: string;
+  brandTitle?: string;
+  links: NavigationLink[];
+  courseButton?: {
+    text: string;
+    href: string;
+  };
+  ctaButton?: {
+    text: string;
+    href: string;
+  };
+}
+
+export interface FooterConfig {
+  description?: string;
+  locationNote?: string;
+  copyrightText?: string;
+  creditText?: string;
+  socialLinks?: {
+    twitter?: string;
+    linkedin?: string;
+    instagram?: string;
+    github?: string;
+    whatsapp?: string;
+  };
+}
+
 export interface HeroContent {
   tagline: string;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   description: string;
-  primaryCtaText: string;
-  primaryCtaLink: string;
-  secondaryCtaText: string;
-  secondaryCtaLink: string;
+  primaryCtaText?: string;
+  primaryCtaLink?: string;
+  primaryCtaAction?: 'modal' | 'link';
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
+  backgroundImage?: string;
+  backgroundBlur?: number;
+  backgroundOpacity?: number;
 }
 
 export interface CapabilityItem {
@@ -211,8 +248,15 @@ export interface ProjectItem {
 }
 
 export interface AboutContent {
+  category?: string;
   title: string;
   description: string;
+  imageUrl?: string;
+  badges?: {
+    badge1?: string;
+    badge2?: string;
+    badge3?: string;
+  };
   stats: Array<{
     label: string;
     value: string;
@@ -228,11 +272,13 @@ export interface AboutContent {
 export interface ContactInfo {
   email: string;
   phone: string;
+  secondaryPhone?: string;
   location: string;
   tagline: string;
   title: string;
   heading: string;
   description: string;
+  responseTime?: string;
 }
 
 export interface SocialPresence {
@@ -244,7 +290,7 @@ export interface SocialPresence {
 
 export interface LegalPageContent {
   title: string;
-  lastUpdated: string;
+  lastUpdated?: string;
   sections: Array<{
     heading: string;
     content: string;
@@ -254,14 +300,17 @@ export interface LegalPageContent {
 export interface SiteSettings {
   companyName: string;
   tagline: string;
-  productionBaseUrl: string;
-  customDomainReady: boolean;
-  primaryLanguage: 'en';
-  enableHindi: boolean;
+  logoUrl?: string;
+  productionBaseUrl?: string;
+  viewerUrl?: string;
+  customDomainReady?: boolean;
+  primaryLanguage?: 'en';
+  enableHindi?: boolean;
 }
 
 export interface ContentRecord {
   siteSettings: SiteSettings;
+  navigation?: NavigationConfig;
   hero: HeroContent;
   capabilities: {
     tagline: string;
@@ -280,18 +329,20 @@ export interface ContentRecord {
     title: string;
     description: string;
     intervalSeconds?: number;
-    autoplay?: boolean;
+    autoPlay?: boolean;
     list?: ProjectItem[];
   };
   projectsList: ProjectItem[];
   about: AboutContent;
   contact: ContactInfo;
+  footer?: FooterConfig;
   presence: SocialPresence;
   legal?: {
-    termsAndConditions: LegalPageContent;
-    privacyPolicy: LegalPageContent;
-    refundPolicy: LegalPageContent;
+    termsAndConditions?: LegalPageContent;
+    privacyPolicy?: LegalPageContent;
+    refundPolicy?: LegalPageContent;
   };
+  cloudflareWebhookUrl?: string;
 }
 
 // ==========================================

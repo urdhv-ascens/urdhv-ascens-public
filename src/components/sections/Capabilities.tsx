@@ -21,7 +21,7 @@ import {
   BarChart3
 } from 'lucide-react';
 import contentData from "@/data/content.json";
-import { getLiveContent } from "@/lib/api-client";
+import { useCMSContent } from "@/core/CMSContentContext";
 
 interface CapabilityCardItem {
   id: string;
@@ -254,34 +254,16 @@ export function Capabilities({
 }: {
   onOpenCourseModal?: () => void;
 }) {
-  const [capabilitiesData, setCapabilitiesData] = useState(contentData.capabilities || {
+  const { content } = useCMSContent();
+  const capabilitiesData = content.capabilities || contentData.capabilities || {
     tagline: 'WHAT WE DO',
     title: 'Studio Capabilities',
     description: 'One nexus for every digital solution - engineered with intent across 9 core disciplines.',
     list: []
-  });
+  };
 
-  const [items, setItems] = useState<CapabilityCardItem[]>(
-    ((contentData.capabilities.list || []) as any[]).filter((c: any) => c.active !== false)
-  );
-
-  useEffect(() => {
-    async function loadLive() {
-      try {
-        const live = await getLiveContent();
-        if (live && live.capabilities) {
-          setCapabilitiesData(live.capabilities as any);
-          if (Array.isArray(live.capabilities.list) && live.capabilities.list.length > 0) {
-            const activeList = live.capabilities.list.filter((c: any) => c.active !== false);
-            setItems(activeList);
-          }
-        }
-      } catch (err) {
-        console.warn("Using bundled capabilities fallback:", err);
-      }
-    }
-    loadLive();
-  }, []);
+  const rawList = Array.isArray(capabilitiesData.list) ? capabilitiesData.list : (contentData.capabilities?.list || []);
+  const items: CapabilityCardItem[] = (rawList as any[]).filter((c: any) => c.active !== false);
 
   // Split into two distinct balanced rows
   const half = Math.ceil(items.length / 2);

@@ -1,7 +1,9 @@
 {
   "siteSettings": {
     "companyName": "Ūrdhv Ascens",
-    "tagline": "A Digital Aesthetics & Functionality Hub"
+    "tagline": "A Digital Aesthetics & Functionality Hub",
+    "logoUrl": "/logo.png",
+    "viewerUrl": "https://urdhv-viewer.pages.dev"
   },
   "hero": {
     "tagline": "A Digital Aesthetics & Functionality Hub",
@@ -9,7 +11,12 @@
     "description": "Ūrdhv Ascens delivers enterprise-grade design, digital presence management, and technical solutions for brands that demand distinction.",
     "backgroundImage": "/assets/images/favicon.png",
     "backgroundBlur": 32,
-    "backgroundOpacity": 20
+    "backgroundOpacity": 20,
+    "primaryCtaText": "Access AI Courses (Free)",
+    "primaryCtaLink": "https://urdhv-viewer.pages.dev",
+    "primaryCtaAction": "modal",
+    "secondaryCtaText": "Discuss Project",
+    "secondaryCtaLink": "/#contact"
   },
   "about": {
     "title": "About Us",
@@ -34,6 +41,12 @@
       "videoId": "",
       "title": "Ūrdhv Ascens Showreel",
       "posterUrl": ""
+    },
+    "category": "The Philosophy",
+    "badges": {
+      "badge1": "STUDIO PHILOSOPHY",
+      "badge2": "DIGITAL ARCHITECTURE",
+      "badge3": "EST. 2026"
     }
   },
   "capabilities": {
@@ -329,12 +342,128 @@
     "description": "We partner with a select number of clients each quarter to ensure every project receives the attention it deserves. If you're ready to elevate your digital presence, we're ready to listen.",
     "email": "urdhvascens@gmail.com",
     "phone": "+91 7891085020 / +91 80037 53540",
-    "location": "India"
+    "location": "India",
+    "secondaryPhone": "+91 80037 53540",
+    "responseTime": "Replies typically within 12 hours"
   },
   "presence": {
     "instagram": "https://instagram.com/urdhvascens",
     "linkedin": "https://linkedin.com/company/urdhvascens",
     "twitter": "https://x.com/urdhvascens",
     "customLinks": []
+  },
+  "navigation": {
+    "brandTitle": "ŪRDHV ASCENS",
+    "logoUrl": "/logo.png",
+    "links": [
+      {
+        "label": "Capabilities",
+        "href": "/#capabilities"
+      },
+      {
+        "label": "Services",
+        "href": "/#services"
+      },
+      {
+        "label": "Work",
+        "href": "/#projects"
+      },
+      {
+        "label": "Contact",
+        "href": "/#contact"
+      }
+    ],
+    "courseButton": {
+      "text": "AI Courses (Free)",
+      "href": "https://urdhv-viewer.pages.dev"
+    },
+    "ctaButton": {
+      "text": "Discuss Project",
+      "href": "/#contact"
+    }
+  },
+  "footer": {
+    "description": "A bespoke digital studio for brands that refuse to blend in. Precision engineered. Distinctly elevated.",
+    "locationNote": "Based in India / Serving Select Global Engagements",
+    "copyrightText": "© 2026 ŪRDHV ASCENS. All visual identities and course frameworks reserved.",
+    "creditText": "Engineered on Cloudflare Pages Edge CDN & Hostinger Dynamic Storage",
+    "socialLinks": {
+      "twitter": "https://x.com/urdhvascens",
+      "linkedin": "https://linkedin.com/company/urdhvascens",
+      "instagram": "https://instagram.com/urdhvascens",
+      "github": "https://github.com/urdhv-ascens",
+      "whatsapp": "https://wa.me/917891085020"
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "effectiveDate": "September 2026",
+      "subtitle": "Ūrdhv Ascens is committed to absolute data transparency and responsible privacy practices.",
+      "sections": [
+        {
+          "heading": "1. Scope and Commitment",
+          "content": "This Privacy Policy explains how Ūrdhv Ascens ('we', 'us', 'our') collects, uses, and safeguards information when you visit our website or access our free educational course booklets through the Ūrdhv Ascens Viewer platform."
+        },
+        {
+          "heading": "2. Information We Collect",
+          "content": "When entering our educational learning courses, we request your name, contact information (email or phone number), role (Student, Educator, Professional), and optional institutional affiliation. We collect this data strictly on an opt-in basis with your explicit consent checkbox.\n\nWe additionally log cryptographic hashes of incoming IP addresses (SHA-256 salted) to prevent automated rate-limit abuse and safeguard edge CDN bandwidth. We do not store raw IP addresses alongside personal identities."
+        },
+        {
+          "heading": "3. Educational Booklet Access",
+          "content": "All course booklets are completely free of charge. We do not process payments, collect banking details, or request payment card credentials for curriculum access."
+        },
+        {
+          "heading": "4. Third-Party Edge Delivery",
+          "content": "Booklet pages and static visual assets are served across high-performance edge content delivery networks (Cloudflare Pages and Hostinger edge infrastructure). No tracking pixels or third-party behavioral analytics monitors are embedded into our reader canvas."
+        },
+        {
+          "heading": "5. Contact & Data Deletion",
+          "content": "To request inspection or complete deletion of your reader record, contact our data administration desk at urdhvascens@gmail.com. Inquiries are handled promptly within standard business response windows."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "effectiveDate": "September 2026",
+      "subtitle": "Clear, professional guidelines governing the use of our studio website and educational materials.",
+      "sections": [
+        {
+          "heading": "1. Acceptance of Terms",
+          "content": "By browsing this website or accessing curriculum materials via our booklet viewer, you agree to comply with and be bound by these Terms of Service."
+        },
+        {
+          "heading": "2. Intellectual Property Rights",
+          "content": "All visual identities, studio marks, typography frameworks, booklet layouts, and bespoke software systems are the exclusive intellectual property of Ūrdhv Ascens. Unauthorized re-hosting, scraping, automated mass downloading, or commercial resale of booklet pages is strictly prohibited."
+        },
+        {
+          "heading": "3. Educational Materials",
+          "content": "Curriculum booklets are provided free of charge for individual learning, classroom instruction, and educational enrichment. You may read and review them freely on our zero-leakage viewer."
+        },
+        {
+          "heading": "4. Limitation of Liability",
+          "content": "Ūrdhv Ascens provides this digital platform and its contents on an 'as-is' and 'as-available' basis. While we strive for uninterrupted 99.9% uptime, we shall not be liable for any indirect or incidental damages resulting from network interruptions."
+        }
+      ]
+    },
+    "refundPolicy": {
+      "title": "Cancellation & Refund Policy",
+      "effectiveDate": "September 2026",
+      "subtitle": "Standard client engagement terms and free educational access guarantees.",
+      "sections": [
+        {
+          "heading": "1. Free Educational Access",
+          "content": "All course booklets, curriculum modules, and interactive reader features on the Ūrdhv Ascens platform are provided 100% free of charge. There are no subscription fees, hidden microtransactions, or paywalled chapters."
+        },
+        {
+          "heading": "2. Client Studio Engagements",
+          "content": "For bespoke corporate design, web architecture, and digital transformation contracts, project milestone terms, deposit schedules, and cancellation clauses are governed individually by the formal Statement of Work (SOW) executed between Ūrdhv Ascens and the client."
+        },
+        {
+          "heading": "3. Inquiries",
+          "content": "If you have questions regarding an existing bespoke engagement agreement, please contact your account manager directly or email urdhvascens@gmail.com."
+        }
+      ]
+    }
   }
 }
