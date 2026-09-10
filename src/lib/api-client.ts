@@ -32,6 +32,7 @@ function getAuthHeaders(): HeadersInit {
     const key = localStorage.getItem('urdhv_admin_key');
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
+      headers['X-Admin-Token'] = token;
     }
     if (key) {
       headers['X-Admin-Key'] = key;
