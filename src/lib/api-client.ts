@@ -6,15 +6,20 @@
 
 import type { Booklet, Course, ReaderRecord, AdsConfig, ContentRecord } from '@/core/types';
 
-export const API_BASE = 
-  process.env.NEXT_PUBLIC_API_URL || 
-  (typeof window !== 'undefined' 
-    ? (window.location.origin.includes('localhost') 
-        ? 'http://localhost/urdhvascens/api' 
-        : (window.location.origin.includes('hostingersite.com')
-            ? `${window.location.origin}/api`
-            : 'https://gold-cat-133405.hostingersite.com/api'))
-    : 'https://gold-cat-133405.hostingersite.com/api');
+export function getApiBase(): string {
+  if (typeof window !== 'undefined') {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      return 'http://localhost:8080/api';
+    }
+    if (window.location.pathname.startsWith('/admin') || window.location.origin.includes('hostingersite.com')) {
+      return `${window.location.origin}/api`;
+    }
+    return 'https://gold-cat-133405.hostingersite.com/api';
+  }
+  return 'https://gold-cat-133405.hostingersite.com/api';
+}
+
+export const API_BASE = 'https://gold-cat-133405.hostingersite.com/api';
 
 function getAuthHeaders(): HeadersInit {
   const headers: Record<string, string> = {
@@ -38,10 +43,11 @@ function getAuthHeaders(): HeadersInit {
 
 // 1. AUTH API
 export async function adminLogin(passwordOrKey: string, email = 'admin@urdhvascens.com') {
-  const res = await fetch(`${API_BASE}/auth.php`, {
+  const res = await fetch(`${getApiBase()}/auth.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ password: passwordOrKey, email, adminKey: passwordOrKey })
+    body: JSON.stringify({ password: passwordOrKey, email, adminKey: passwordOrKey }),
+    signal: AbortSignal.timeout(10000)
   });
   const data = await res.json();
   if (data.success && data.token) {
@@ -54,10 +60,11 @@ export async function adminLogin(passwordOrKey: string, email = 'admin@urdhvasce
 export function adminLogout() {
   const token = localStorage.getItem('urdhv_admin_token');
   if (token) {
-    fetch(`${API_BASE}/auth.php?action=logout`, {
+    fetch(`${getApiBase()}/auth.php?action=logout`, {
       method: 'POST',
       headers: getAuthHeaders(),
-      body: JSON.stringify({ token })
+      body: JSON.stringify({ token }),
+      signal: AbortSignal.timeout(6000)
     }).catch(() => {});
   }
   localStorage.removeItem('urdhv_admin_token');
@@ -71,8 +78,9 @@ export async function verifyAdminSession(): Promise<boolean> {
   if (!token && !key) return false;
 
   try {
-    const res = await fetch(`${API_BASE}/auth.php?action=verify`, {
-      headers: getAuthHeaders()
+    const res = await fetch(`${getApiBase()}/auth.php?action=verify`, {
+      headers: getAuthHeaders(),
+      signal: AbortSignal.timeout(6000)
     });
     const data = await res.json();
     return !!data.authenticated;
@@ -85,7 +93,9 @@ export async function verifyAdminSession(): Promise<boolean> {
 // 2. CONTENT API
 export async function getLiveContent(): Promise<ContentRecord | null> {
   try {
-    const res = await fetch(`${API_BASE}/content.php`);
+    const res = await fetch(`${getApiBase()}/content.php`, {
+      signal: AbortSignal.timeout(8000)
+    });
     if (res.ok) {
       const data = await res.json();
       if (!data.error) return data;
@@ -97,10 +107,11 @@ export async function getLiveContent(): Promise<ContentRecord | null> {
 }
 
 export async function updateContent(content: Partial<ContentRecord>) {
-  const res = await fetch(`${API_BASE}/content.php`, {
+  const res = await fetch(`${getApiBase()}/content.php`, {
     method: 'POST',
     headers: getAuthHeaders(),
-    body: JSON.stringify(content)
+    body: JSON.stringify(content),
+    signal: AbortSignal.timeout(12000)
   });
   return await res.json();
 }
@@ -112,8 +123,9 @@ export async function getBooklets(courseId?: string, category?: string): Promise
   if (category) params.append('category', category);
 
   try {
-    const res = await fetch(`${API_BASE}/booklets.php?${params.toString()}`, {
-      headers: getAuthHeaders()
+    const res = await fetch(`${getApiBase()}/booklets.php?${params.toString()}`, {
+      headers: getAuthHeaders(),
+      signal: AbortSignal.timeout(8000)
     });
     if (res.ok) {
       return await res.json();
@@ -125,19 +137,21 @@ export async function getBooklets(courseId?: string, category?: string): Promise
 }
 
 export async function updateBooklet(booklet: Partial<Booklet> & { id: string }) {
-  const res = await fetch(`${API_BASE}/booklets.php`, {
+  const res = await fetch(`${getApiBase()}/booklets.php`, {
     method: 'POST',
     headers: getAuthHeaders(),
-    body: JSON.stringify(booklet)
+    body: JSON.stringify(booklet),
+    signal: AbortSignal.timeout(10000)
   });
   return await res.json();
 }
 
 export async function updateAllBooklets(booklets: Booklet[]) {
-  const res = await fetch(`${API_BASE}/booklets.php`, {
+  const res = await fetch(`${getApiBase()}/booklets.php`, {
     method: 'POST',
     headers: getAuthHeaders(),
-    body: JSON.stringify({ booklets })
+    body: JSON.stringify({ booklets }),
+    signal: AbortSignal.timeout(12000)
   });
   return await res.json();
 }
@@ -145,8 +159,9 @@ export async function updateAllBooklets(booklets: Booklet[]) {
 // 4. COURSES API
 export async function getCourses(): Promise<Course[]> {
   try {
-    const res = await fetch(`${API_BASE}/courses.php`, {
-      headers: getAuthHeaders()
+    const res = await fetch(`${getApiBase()}/courses.php`, {
+      headers: getAuthHeaders(),
+      signal: AbortSignal.timeout(8000)
     });
     if (res.ok) return await res.json();
   } catch (err) {
@@ -156,10 +171,11 @@ export async function getCourses(): Promise<Course[]> {
 }
 
 export async function updateCourses(courses: Course[]) {
-  const res = await fetch(`${API_BASE}/courses.php`, {
+  const res = await fetch(`${getApiBase()}/courses.php`, {
     method: 'POST',
     headers: getAuthHeaders(),
-    body: JSON.stringify(courses)
+    body: JSON.stringify(courses),
+    signal: AbortSignal.timeout(10000)
   });
   return await res.json();
 }
@@ -173,10 +189,11 @@ export async function registerReader(input: {
   courseSelected: string;
   consentGiven: boolean;
 }) {
-  const res = await fetch(`${API_BASE}/readers.php`, {
+  const res = await fetch(`${getApiBase()}/readers.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(input)
+    body: JSON.stringify(input),
+    signal: AbortSignal.timeout(8000)
   });
   return await res.json();
 }
@@ -186,30 +203,33 @@ export async function getReaders(query = '', courseId = ''): Promise<{ total: nu
   if (query) params.append('q', query);
   if (courseId) params.append('courseId', courseId);
 
-  const res = await fetch(`${API_BASE}/readers.php?${params.toString()}`, {
-    headers: getAuthHeaders()
+  const res = await fetch(`${getApiBase()}/readers.php?${params.toString()}`, {
+    headers: getAuthHeaders(),
+    signal: AbortSignal.timeout(10000)
   });
   return await res.json();
 }
 
 export async function deleteReader(id: string) {
-  const res = await fetch(`${API_BASE}/readers.php`, {
+  const res = await fetch(`${getApiBase()}/readers.php`, {
     method: 'DELETE',
     headers: getAuthHeaders(),
-    body: JSON.stringify({ id })
+    body: JSON.stringify({ id }),
+    signal: AbortSignal.timeout(8000)
   });
   return await res.json();
 }
 
 export function getReadersCsvExportUrl(): string {
-  return `${API_BASE}/readers.php?export=csv`;
+  return `${getApiBase()}/readers.php?export=csv`;
 }
 
 // 6. ADS API
 export async function getAds(): Promise<AdsConfig | null> {
   try {
-    const res = await fetch(`${API_BASE}/ads.php`, {
-      headers: getAuthHeaders()
+    const res = await fetch(`${getApiBase()}/ads.php`, {
+      headers: getAuthHeaders(),
+      signal: AbortSignal.timeout(8000)
     });
     if (res.ok) return await res.json();
   } catch (err) {
@@ -219,10 +239,11 @@ export async function getAds(): Promise<AdsConfig | null> {
 }
 
 export async function updateAds(ads: AdsConfig) {
-  const res = await fetch(`${API_BASE}/ads.php`, {
+  const res = await fetch(`${getApiBase()}/ads.php`, {
     method: 'POST',
     headers: getAuthHeaders(),
-    body: JSON.stringify(ads)
+    body: JSON.stringify(ads),
+    signal: AbortSignal.timeout(10000)
   });
   return await res.json();
 }
@@ -238,10 +259,11 @@ export async function uploadAsset(file: File): Promise<{ success: boolean; url?:
   if (token) headers['Authorization'] = `Bearer ${token}`;
   if (key) headers['X-Admin-Key'] = key;
 
-  const res = await fetch(`${API_BASE}/upload.php`, {
+  const res = await fetch(`${getApiBase()}/upload.php`, {
     method: 'POST',
     headers,
-    body: formData
+    body: formData,
+    signal: AbortSignal.timeout(30000)
   });
   return await res.json();
 }
