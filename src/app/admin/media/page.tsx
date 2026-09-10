@@ -99,7 +99,7 @@ export default function MediaLibrary() {
                       sizes="(max-width: 768px) 50vw, 25vw"
                     />
                   )}
-                  <div className="absolute top-2 right-2 px-2 py-1 bg-black/70 text-white text-[10px] font-mono rounded backdrop-blur-md uppercase">
+                  <div className="absolute top-2 right-2 px-2 py-1 bg-black text-white text-[10px] font-mono rounded border border-zinc-800 uppercase">
                     {asset.format}
                   </div>
                 </div>

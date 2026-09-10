@@ -256,7 +256,7 @@ export default function BookletsAdminPage() {
                       'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400"><rect fill="%2318181b" width="300" height="400"/><text fill="%2300ff66" font-size="20" font-family="sans-serif" x="50%" y="50%" text-anchor="middle">COVER PREVIEW</text></svg>';
                   }}
                 />
-                <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-black text-emerald-400 border border-emerald-500/30 backdrop-blur-md">
+                <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-black text-emerald-400 border border-emerald-500/30">
                   Active Cover
                 </span>
               </div>

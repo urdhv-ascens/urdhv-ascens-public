@@ -116,7 +116,7 @@ export default function AdminLayout({
 
         {/* Admin Main Content */}
         <main className="flex-1 flex flex-col h-screen overflow-hidden bg-black">
-          <header className="h-14 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md flex items-center justify-between px-6 shrink-0">
+          <header className="h-14 border-b border-zinc-800 bg-zinc-950 flex items-center justify-between px-6 shrink-0">
             <div className="flex items-center space-x-3">
               <span className="text-xs font-mono text-zinc-400">HOSTINGER CONTROL CENTER</span>
               <span className="text-zinc-700">•</span>

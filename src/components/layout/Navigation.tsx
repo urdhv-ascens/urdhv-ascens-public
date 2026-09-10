@@ -29,7 +29,7 @@ export function Navigation() {
       className={cn(
         'fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent',
         isScrolled
-          ? 'bg-black/90 backdrop-blur-md border-zinc-850 py-3.5 shadow-xl shadow-black/50'
+          ? 'bg-black border-zinc-850 py-3.5 shadow-xl shadow-black/50'
           : 'bg-transparent py-5'
       )}
     >
@@ -83,7 +83,7 @@ export function Navigation() {
 
       {/* Mobile Nav Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-black/95 border-b border-zinc-800 backdrop-blur-xl shadow-2xl py-6 px-6 flex flex-col gap-4">
+        <div className="md:hidden absolute top-full left-0 w-full bg-black border-b border-zinc-800 shadow-2xl py-6 px-6 flex flex-col gap-4">
           {navLinks.map((link) => (
             <Link
               key={link.label}

@@ -207,7 +207,7 @@ function CapabilityTrack({
           <div
             key={`${item.id}-${idx}`}
             onClick={(e) => handleClick(item, e)}
-            className="w-[230px] sm:w-[280px] md:w-[320px] shrink-0 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-zinc-950/90 border border-zinc-850 hover:border-emerald-500/50 hover:bg-zinc-900/80 transition-all duration-300 group backdrop-blur-sm flex flex-col justify-between"
+            className="w-[230px] sm:w-[280px] md:w-[320px] shrink-0 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-zinc-950 border border-zinc-850 hover:border-emerald-500/50 hover:bg-zinc-900 transition-all duration-300 group flex flex-col justify-between"
           >
             <div>
               {/* Header Badge & Icon */}

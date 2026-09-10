@@ -73,16 +73,16 @@ export function About() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
               {/* Aesthetic Badges */}
-              <div className="absolute top-2.5 sm:top-3.5 left-2.5 sm:left-3.5 flex items-center space-x-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg bg-black/80 backdrop-blur-md border border-zinc-800 text-[9px] sm:text-[10px] font-mono font-bold text-emerald-400">
+              <div className="absolute top-2.5 sm:top-3.5 left-2.5 sm:left-3.5 flex items-center space-x-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg bg-black border border-zinc-800 text-[9px] sm:text-[10px] font-mono font-bold text-emerald-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span>STUDIO PHILOSOPHY</span>
               </div>
 
               <div className="absolute bottom-2.5 sm:bottom-3.5 left-2.5 sm:left-3.5 right-2.5 sm:right-3.5 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-zinc-400">
-                <span className="px-1.5 sm:px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-zinc-800">
+                <span className="px-1.5 sm:px-2 py-0.5 rounded bg-black border border-zinc-800">
                   DIGITAL ARCHITECTURE
                 </span>
-                <span className="px-1.5 sm:px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-zinc-800 text-emerald-400">
+                <span className="px-1.5 sm:px-2 py-0.5 rounded bg-black border border-zinc-800 text-emerald-400">
                   EST. 2026
                 </span>
               </div>

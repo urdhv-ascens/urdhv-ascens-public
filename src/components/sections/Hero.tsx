@@ -67,7 +67,7 @@ export function Hero({ onOpenCourseModal }: HeroProps) {
           {/* Free Course Entry Modal Trigger */}
           <button
             onClick={onOpenCourseModal}
-            className="w-full sm:w-auto px-8 py-4 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold text-sm uppercase tracking-wider transition-all shadow-xl shadow-emerald-500/20 flex items-center justify-center space-x-2.5"
+            className="w-full sm:w-auto px-8 py-4 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-extrabold text-sm uppercase tracking-wider transition-all flex items-center justify-center space-x-2.5"
           >
             <Sparkles className="w-4 h-4" />
             <span>Access AI Courses (Free)</span>

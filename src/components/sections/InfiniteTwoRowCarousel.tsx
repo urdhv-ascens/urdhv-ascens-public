@@ -247,7 +247,7 @@ function CarouselRow({
               
               {/* Card Header */}
               <div className="relative z-10 flex items-center justify-between">
-                <span className="px-2.5 py-1 rounded-md text-[10px] font-semibold bg-zinc-900/90 border border-zinc-800 text-amber-400 uppercase tracking-wider backdrop-blur-md">
+                <span className="px-2.5 py-1 rounded-md text-[10px] font-semibold bg-zinc-900 border border-zinc-800 text-amber-400 uppercase tracking-wider">
                   {card.category}
                 </span>
                 <span className="p-1 rounded-lg bg-zinc-900/80 text-zinc-500 group-hover:text-amber-400 transition-colors">
