@@ -17,7 +17,7 @@ export function Footer() {
   const description = footerConfig.description || 'A bespoke digital studio for brands that refuse to blend in. Precision engineered. Distinctly elevated.';
   const locationNote = footerConfig.locationNote || 'Based in India / Serving Select Global Engagements';
   const copyrightText = footerConfig.copyrightText || `© ${currentYear} ŪRDHV ASCENS. All visual identities and course frameworks reserved.`;
-  const creditText = footerConfig.creditText || 'Engineered on Cloudflare Pages Edge CDN & Hostinger Dynamic Storage';
+  const creditText = footerConfig.creditText || 'Architected by Ūrdhv Ascens • Digital Design & Engineering Studio';
 
   const email = contact.email || 'urdhvascens@gmail.com';
   const phone = contact.phone || '+91 7891085020';
