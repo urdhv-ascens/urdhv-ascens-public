@@ -1,5 +1,3 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import fs from 'fs/promises';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -9,51 +7,48 @@ import { fileURLToPath } from 'url';
 dotenv.config({ path: '.env.local' });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const contentPath = path.join(__dirname, '..', 'src', 'data', 'content.json');
 
-const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
-};
+const HOSTINGER_API = process.env.NEXT_PUBLIC_API_URL 
+  ? `${process.env.NEXT_PUBLIC_API_URL}/content.php`
+  : 'https://urdhvascens.com/api/content.php';
 
 async function hydrate() {
-  console.log('🔄 Initiating CMS Data Hydration...');
+  console.log('🔄 Initiating Ūrdhv Ascens CMS Data Hydration...');
 
-  if (!firebaseConfig.projectId) {
-    console.warn('⚠️ No Firebase Project ID found. Skipping hydration. (Using local static data)');
-    return;
-  }
-
+  // 1. Primary Source: Hostinger Content API (Spec §3.1)
   try {
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    console.log(`📡 Checking Hostinger Control Center API (${HOSTINGER_API})...`);
+    const res = await fetch(HOSTINGER_API, {
+      headers: { 'Accept': 'application/json' },
+      signal: AbortSignal.timeout(5000)
+    });
 
-    const docRef = doc(db, 'config', 'siteSettings');
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      const contentPath = path.join(__dirname, '..', 'src', 'data', 'content.json');
-      
-      // We stringify the data nicely for version control readability
-      await fs.writeFile(contentPath, JSON.stringify(data, null, 2), 'utf8');
-      
-      console.log('✅ Successfully hydrated content.json from Firestore!');
-    } else {
-      console.log('⚠️ No document found in Firestore at config/siteSettings. Proceeding with default static data.');
+    if (res.ok) {
+      const data = await res.json();
+      if (data && typeof data === 'object' && !data.error && data.hero) {
+        await fs.writeFile(contentPath, JSON.stringify(data, null, 2), 'utf8');
+        console.log('✅ Successfully hydrated content.json from Hostinger Control Center!');
+        return;
+      }
     }
-  } catch (error) {
-    if (error.code === 'permission-denied') {
-      console.warn('⚠️ Firebase Permission Denied. To fix this, update your Firestore Rules to allow public reads to config/siteSettings.');
-    } else {
-      console.error('❌ Failed to hydrate CMS data:', error.message);
-    }
-    console.warn('⚠️ Proceeding with existing local static data...');
-    process.exit(0); // Gracefully fallback so the build doesn't crash
+  } catch (err) {
+    console.warn('⚠️ Hostinger API unreachable or timed out:', err.message);
   }
+
+  // 2. Secondary Source: Local bundled content.json verification
+  try {
+    const localContent = await fs.readFile(contentPath, 'utf8');
+    const parsed = JSON.parse(localContent);
+    if (parsed && parsed.hero) {
+      console.log('✅ Using bundled local content.json (Build will proceed reliably).');
+      return;
+    }
+  } catch (err) {
+    console.warn('⚠️ Local content.json not found or invalid:', err.message);
+  }
+
+  console.log('ℹ️ Proceeding with static defaults.');
 }
 
 hydrate();

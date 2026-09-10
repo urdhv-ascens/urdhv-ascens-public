@@ -4,50 +4,66 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-background border-t border-border py-12 md:py-16">
+    <footer className="bg-black border-t border-zinc-900 text-white py-14 md:py-18">
       <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-start gap-12">
         
-        <div className="flex flex-col max-w-sm gap-6">
-          <Link href="/" className="text-3xl font-bold tracking-tighter">
-            Ūrdhv<span className="text-primary">.</span>
+        <div className="flex flex-col max-w-sm gap-4">
+          <Link href="/" className="text-2xl font-black tracking-widest uppercase">
+            ŪRDHV <span className="text-amber-400">ASCENS</span>
           </Link>
-          <p className="text-muted-foreground">
-            A digital atelier for brands that demand distinction. Precision-engineered. Distinctly elevated.
+          <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed">
+            A bespoke digital studio for brands that refuse to blend in.
+            Precision engineered. Distinctly elevated.
           </p>
+          <span className="text-[11px] font-mono text-zinc-600">
+            Based in India • Serving Select Global Engagements
+          </span>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-16">
-          <div className="flex flex-col gap-4">
-            <h4 className="font-semibold text-foreground">Studio</h4>
-            <Link href="/#about" className="text-sm text-muted-foreground hover:text-primary transition-colors">About</Link>
-            <Link href="/#capabilities" className="text-sm text-muted-foreground hover:text-primary transition-colors">Capabilities</Link>
-            <Link href="/#projects" className="text-sm text-muted-foreground hover:text-primary transition-colors">Projects</Link>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+          <div className="flex flex-col gap-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">Studio</h4>
+            <Link href="/#about" className="text-xs text-zinc-400 hover:text-white transition-colors">About Us</Link>
+            <Link href="/#capabilities" className="text-xs text-zinc-400 hover:text-white transition-colors">Capabilities</Link>
+            <Link href="/#services" className="text-xs text-zinc-400 hover:text-white transition-colors">Services</Link>
+            <Link href="/#projects" className="text-xs text-zinc-400 hover:text-white transition-colors">Selected Work</Link>
+            <Link href="/#pricing" className="text-xs text-zinc-400 hover:text-white transition-colors">Pricing Plans</Link>
           </div>
           
-          <div className="flex flex-col gap-4">
-            <h4 className="font-semibold text-foreground">Social</h4>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Instagram</a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">LinkedIn</a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Twitter</a>
+          <div className="flex flex-col gap-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">Curriculum</h4>
+            <a href="https://viewer.urdhvascens.com?course=students-ai" target="_blank" rel="noopener noreferrer" className="text-xs text-amber-400 hover:text-amber-300 transition-colors">Students AI Track</a>
+            <a href="https://viewer.urdhvascens.com?course=teachers-ai" target="_blank" rel="noopener noreferrer" className="text-xs text-amber-400 hover:text-amber-300 transition-colors">Teachers AI Toolkit</a>
+            <a href="https://viewer.urdhvascens.com" target="_blank" rel="noopener noreferrer" className="text-xs text-zinc-400 hover:text-white transition-colors">Booklet Library</a>
           </div>
 
-          <div className="flex flex-col gap-4 col-span-2 md:col-span-1">
-            <h4 className="font-semibold text-foreground">Contact</h4>
-            <a href="mailto:hello@urdhvascens.com" className="text-sm text-muted-foreground hover:text-primary transition-colors">hello@urdhvascens.com</a>
-            <p className="text-sm text-muted-foreground">+91 XXXXX XXXXX</p>
+          <div className="flex flex-col gap-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">Legal & Trust</h4>
+            <Link href="/privacy" className="text-xs text-zinc-400 hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="text-xs text-zinc-400 hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/refund-policy" className="text-xs text-zinc-400 hover:text-white transition-colors">Cancellation & Refund</Link>
+            <Link href="/admin" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors font-mono">Control Plane</Link>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">Direct Contact</h4>
+            <a href="mailto:urdhvascens@gmail.com" className="text-xs text-zinc-400 hover:text-amber-400 transition-colors font-mono">
+              urdhvascens@gmail.com
+            </a>
+            <p className="text-xs text-zinc-400 font-mono">+91 7891085020</p>
+            <p className="text-xs text-zinc-400 font-mono">+91 80037 53540</p>
           </div>
         </div>
 
       </div>
       
-      <div className="container mx-auto px-6 md:px-12 mt-12 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-        <p className="text-sm text-muted-foreground">
-          &copy; {currentYear} Ūrdhv Ascens. All rights reserved.
+      <div className="container mx-auto px-6 md:px-12 mt-12 pt-8 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-zinc-500">
+        <p>
+          &copy; {currentYear} ŪRDHV ASCENS. All visual identities and course frameworks reserved.
         </p>
-        <div className="flex gap-6">
-          <Link href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
-          <Link href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
-        </div>
+        <p className="font-mono text-[11px] text-zinc-600">
+          Engineered on Cloudflare Pages Edge CDN & Hostinger Dynamic Storage
+        </p>
       </div>
     </footer>
   );

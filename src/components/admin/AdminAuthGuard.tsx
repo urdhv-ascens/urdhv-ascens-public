@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '@/core/firebase/config';
+import { verifyAdminSession } from '@/lib/api-client';
 
 export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -11,23 +10,31 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user && pathname !== '/admin/login') {
+    async function checkAuth() {
+      if (pathname === '/admin/login') {
+        setIsChecking(false);
+        return;
+      }
+
+      const isValid = await verifyAdminSession();
+      if (!isValid) {
         router.push('/admin/login');
       } else {
         setIsChecking(false);
       }
-    });
+    }
 
-    return () => unsubscribe();
+    checkAuth();
   }, [pathname, router]);
 
   if (isChecking) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-pulse flex flex-col items-center gap-4">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-          <span className="text-muted-foreground font-medium">Authenticating...</span>
+          <div className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+          <span className="text-muted-foreground font-medium text-xs font-mono">
+            Verifying Hostinger Control Center Session...
+          </span>
         </div>
       </div>
     );
