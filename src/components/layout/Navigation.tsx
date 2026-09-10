@@ -36,10 +36,10 @@ export function Navigation() {
   return (
     <header
       className={cn(
-        'fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent',
+        'fixed top-0 w-full z-50 transition-all duration-300 backdrop-blur-md',
         isScrolled
-          ? 'bg-black border-zinc-850 py-3.5 shadow-xl shadow-black/50'
-          : 'bg-transparent py-5'
+          ? 'bg-black/95 border-b border-zinc-800 py-3.5 shadow-2xl shadow-black/80'
+          : 'bg-black/85 border-b border-zinc-900/80 py-4.5'
       )}
     >
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">

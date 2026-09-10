@@ -131,7 +131,7 @@ export default function AdminDashboard() {
 
         <div className="flex items-center gap-3">
           <a
-            href="https://gold-cat-133405.hostingersite.com"
+            href="https://urdhvascens.pages.dev"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center space-x-2 px-4 py-2.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-zinc-300 hover:text-white text-xs font-semibold uppercase tracking-wider transition-colors"

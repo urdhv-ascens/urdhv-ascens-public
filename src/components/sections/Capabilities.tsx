@@ -294,7 +294,7 @@ export function Capabilities({
   return (
     <section 
       id="capabilities" 
-      className="relative w-full py-20 md:py-28 bg-black overflow-hidden border-b border-zinc-900"
+      className="relative w-full py-20 md:py-28 bg-black overflow-hidden border-b border-zinc-900 scroll-mt-24 md:scroll-mt-28"
     >
       {/* Edge gradient masks for seamless aesthetic */}
       <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-black to-transparent z-20" />

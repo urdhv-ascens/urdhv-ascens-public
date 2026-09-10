@@ -11,9 +11,11 @@ export function getApiBase(): string {
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       return 'http://localhost:8080/api';
     }
-    if (window.location.pathname.startsWith('/admin') || window.location.origin.includes('hostingersite.com')) {
+    // When loaded directly on Hostinger server
+    if (window.location.origin.includes('hostingersite.com')) {
       return `${window.location.origin}/api`;
     }
+    // Default to Hostinger production backend (e.g. from https://urdhvascens.pages.dev)
     return 'https://gold-cat-133405.hostingersite.com/api';
   }
   return 'https://gold-cat-133405.hostingersite.com/api';
@@ -249,22 +251,71 @@ export async function updateAds(ads: AdsConfig) {
   return await res.json();
 }
 
-// 7. FILE UPLOAD API
-export async function uploadAsset(file: File): Promise<{ success: boolean; url?: string; message?: string }> {
+// 7. MEDIA & FILE UPLOAD API
+export interface MediaAssetItem {
+  url: string;
+  filename: string;
+  size?: number;
+  type?: 'image' | 'video';
+  uploadedAt: string;
+}
+
+export async function getMediaAssets(): Promise<MediaAssetItem[]> {
+  try {
+    const res = await fetch(`${getApiBase()}/upload.php`, {
+      headers: getAuthHeaders(),
+      signal: AbortSignal.timeout(10000)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && Array.isArray(data.assets)) {
+        return data.assets;
+      }
+    }
+  } catch (err) {
+    console.warn('Failed to fetch media assets from Hostinger:', err);
+  }
+  return [];
+}
+
+export async function deleteMediaAsset(filenameOrUrl: string): Promise<{ success: boolean; message?: string }> {
+  try {
+    const res = await fetch(`${getApiBase()}/upload.php`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ filename: filenameOrUrl }),
+      signal: AbortSignal.timeout(10000)
+    });
+    return await res.json();
+  } catch (err: any) {
+    return { success: false, message: err?.message || 'Delete request failed' };
+  }
+}
+
+export async function uploadAsset(file: File): Promise<{ success: boolean; url?: string; filename?: string; message?: string }> {
   const formData = new FormData();
   formData.append('file', file);
 
   const headers: Record<string, string> = {};
-  const token = localStorage.getItem('urdhv_admin_token');
-  const key = localStorage.getItem('urdhv_admin_key');
-  if (token) headers['Authorization'] = `Bearer ${token}`;
-  if (key) headers['X-Admin-Key'] = key;
+  if (typeof window !== 'undefined') {
+    const token = localStorage.getItem('urdhv_admin_token');
+    const key = localStorage.getItem('urdhv_admin_key');
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+      headers['X-Admin-Token'] = token;
+      formData.append('token', token);
+    }
+    if (key) {
+      headers['X-Admin-Key'] = key;
+      formData.append('adminKey', key);
+    }
+  }
 
   const res = await fetch(`${getApiBase()}/upload.php`, {
     method: 'POST',
     headers,
     body: formData,
-    signal: AbortSignal.timeout(30000)
+    signal: AbortSignal.timeout(60000)
   });
   return await res.json();
 }

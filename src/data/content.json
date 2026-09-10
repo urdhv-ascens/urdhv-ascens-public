@@ -274,64 +274,29 @@
     "tagline": "Selected Work",
     "title": "Curated Projects",
     "description": "Digital systems and client flagship productions delivered with precision.",
-    "intervalSeconds": 5
+    "intervalSeconds": 5,
+    "autoPlay": true
   },
   "projectsList": [
     {
       "id": "1",
-      "slug": "star-excellent-academy",
       "name": "Star Excellent Academy",
-      "category": "Web Architecture & CMS",
+      "slug": "star-excellent-academy",
       "status": "ACTIVE",
+      "category": "Web Architecture & CMS",
+      "client": "Star Excellent Trust",
+      "year": "2026",
       "displayOrder": 1,
-      "shortDescription": "An enterprise-grade educational digital flagship featuring dynamic API hydration, bespoke administrative CMS, and sub-second edge delivery.",
-      "description": "A comprehensive digital platform for an educational institution - featuring dynamic content management, responsive design, and an admin CMS built on our API-hydration architecture.",
+      "imageUrl": "",
+      "url": "",
       "tech": [
         "Next.js 16",
         "Tailwind CSS",
         "Hostinger PHP API",
         "Cloudflare Edge"
       ],
-      "client": "Star Excellent Trust",
-      "year": "2026",
-      "lastUpdated": "2026-08-18"
-    },
-    {
-      "id": "2",
-      "slug": "aura-luxe-atelier",
-      "name": "Aura Luxe Atelier",
-      "category": "Brand Identity & E-Commerce",
-      "status": "ACTIVE",
-      "displayOrder": 2,
-      "shortDescription": "A luxury digital storefront featuring bespoke typography, minimalist motion aesthetics, and high-conversion editorial checkout flows.",
-      "description": "A luxury digital storefront featuring bespoke typography, minimalist motion aesthetics, and high-conversion editorial checkout flows.",
-      "tech": [
-        "React 19",
-        "Tailwind CSS",
-        "Shopify API",
-        "WebGL"
-      ],
-      "client": "Aura Luxe Global",
-      "year": "2026",
-      "lastUpdated": "2026-09-01"
-    },
-    {
-      "id": "3",
-      "slug": "vedic-superpowers-publishing",
-      "name": "Vedic Superpowers Interactive Publishing",
-      "category": "AI & Interactive Publishing",
-      "status": "ACTIVE",
-      "displayOrder": 3,
-      "shortDescription": "A decoupled 12-booklet digital reading network powered by custom HTML5 Canvas rendering, bounded memory management, and zero-proxy CDN architecture.",
-      "description": "A decoupled 12-booklet digital reading network powered by custom HTML5 Canvas rendering, bounded memory management, and zero-proxy CDN architecture.",
-      "tech": [
-        "Cloudflare Pages",
-        "HTML5 Canvas",
-        "WebP Streaming",
-        "TypeScript"
-      ],
-      "client": "Ūrdhv Ascens Educational Series",
-      "year": "2026",
+      "shortDescription": "An enterprise-grade educational digital flagship featuring dynamic API hydration, bespoke administrative CMS, and sub-second edge delivery.",
+      "description": "A comprehensive digital platform for an educational institution - featuring dynamic content management, responsive design, and an admin CMS built on our API-hydration architecture.",
       "lastUpdated": "2026-09-10"
     }
   ],

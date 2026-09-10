@@ -51,7 +51,7 @@ export default function AdsAdminPage() {
       id: `slide-${Date.now()}`,
       title: 'New Sponsor Headline',
       subtitle: 'Optional sponsor description',
-      destinationUrl: 'https://gold-cat-133405.hostingersite.com',
+      destinationUrl: 'https://urdhvascens.pages.dev',
       active: true,
       displayOrder: ads.topBar.slides.length + 1
     };

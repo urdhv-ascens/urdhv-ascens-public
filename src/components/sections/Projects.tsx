@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Link from 'next/link';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -142,7 +141,7 @@ export function Projects() {
   return (
     <section 
       id="projects" 
-      className="relative w-full py-20 md:py-32 bg-zinc-950 border-b border-zinc-900 overflow-hidden"
+      className="relative w-full py-20 md:py-32 bg-zinc-950 border-b border-zinc-900 overflow-hidden scroll-mt-24 md:scroll-mt-28"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -264,31 +263,31 @@ export function Projects() {
                 </div>
               )}
 
-              {/* Action Buttons (Non-pill shaped, strictly rounded-lg) */}
+              {/* Action Buttons: Direct Project URL entered in Admin CMS */}
               <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 pt-2 sm:pt-4">
-                <Link
-                  href={`/projects/${currentProject.slug}`}
-                  className="inline-flex items-center space-x-1.5 sm:space-x-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-[11px] sm:text-xs uppercase tracking-wider transition-colors"
-                >
-                  <span>View Case Study</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-
-                {currentProject.url && (
+                {currentProject.url ? (
                   <a
                     href={currentProject.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center space-x-1.5 sm:space-x-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 text-emerald-400 border border-zinc-800 hover:border-emerald-500/30 font-medium text-[11px] sm:text-xs transition-colors"
+                    className="inline-flex items-center space-x-1.5 sm:space-x-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-[11px] sm:text-xs uppercase tracking-wider transition-colors"
                   >
-                    <span>Visit Live Site</span>
+                    <span>Visit Project</span>
                     <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                ) : (
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center space-x-1.5 sm:space-x-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-[11px] sm:text-xs uppercase tracking-wider transition-colors"
+                  >
+                    <span>Discuss Project</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </a>
                 )}
 
                 <a
                   href="#contact"
-                  className="inline-flex items-center space-x-1.5 sm:space-x-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 text-zinc-300 border border-zinc-800 font-medium text-[11px] sm:text-xs transition-colors"
+                  className="inline-flex items-center space-x-1.5 sm:space-x-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 text-zinc-300 border border-zinc-800 hover:border-zinc-700 font-medium text-[11px] sm:text-xs transition-colors"
                 >
                   <span>Request Similar Build</span>
                 </a>

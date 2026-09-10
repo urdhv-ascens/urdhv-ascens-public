@@ -97,7 +97,7 @@ export default function AdminLayout({
           
           <div className="p-4 border-t border-zinc-800 flex flex-col gap-2">
             <a
-              href="https://gold-cat-133405.hostingersite.com"
+              href="https://urdhvascens.pages.dev"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between px-3 py-2 text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-lg transition-colors"

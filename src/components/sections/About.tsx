@@ -30,7 +30,7 @@ export function About() {
   ];
 
   return (
-    <section id="about" className="py-16 sm:py-24 bg-black border-b border-zinc-900 text-white">
+    <section id="about" className="py-16 sm:py-24 bg-black border-b border-zinc-900 text-white scroll-mt-24 md:scroll-mt-28">
       <div className="container mx-auto px-4 sm:px-6 md:px-12">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
           {/* Left Column: Philosophy Copy + Compact Counters Below */}
