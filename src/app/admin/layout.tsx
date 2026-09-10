@@ -27,7 +27,8 @@ export default function AdminLayout({
   const pathname = usePathname();
   const router = useRouter();
 
-  if (pathname === '/admin/login') {
+  const normalizedPath = pathname ? pathname.replace(/\/+$/, '') : '';
+  if (normalizedPath === '/admin/login') {
     return <AdminAuthGuard>{children}</AdminAuthGuard>;
   }
 

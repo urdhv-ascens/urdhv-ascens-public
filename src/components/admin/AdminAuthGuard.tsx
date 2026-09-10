@@ -9,23 +9,34 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isChecking, setIsChecking] = useState(true);
 
+  const normalizedPath = pathname ? pathname.replace(/\/+$/, '') : '';
+  const isLoginPage = normalizedPath === '/admin/login';
+
   useEffect(() => {
     async function checkAuth() {
-      if (pathname === '/admin/login') {
+      if (isLoginPage) {
         setIsChecking(false);
         return;
       }
 
-      const isValid = await verifyAdminSession();
-      if (!isValid) {
-        router.push('/admin/login');
-      } else {
-        setIsChecking(false);
+      try {
+        const isValid = await verifyAdminSession();
+        if (!isValid) {
+          router.push('/admin/login/');
+        } else {
+          setIsChecking(false);
+        }
+      } catch {
+        router.push('/admin/login/');
       }
     }
 
     checkAuth();
-  }, [pathname, router]);
+  }, [isLoginPage, router]);
+
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
 
   if (isChecking) {
     return (
@@ -38,11 +49,6 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
         </div>
       </div>
     );
-  }
-
-  // If on login page, don't render the dashboard layout wrapper
-  if (pathname === '/admin/login') {
-    return <>{children}</>;
   }
 
   return <>{children}</>;

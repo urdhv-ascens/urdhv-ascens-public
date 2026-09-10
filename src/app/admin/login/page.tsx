@@ -20,7 +20,7 @@ export default function AdminLogin() {
     try {
       const res = await adminLogin(password, email);
       if (res.success) {
-        router.push('/admin');
+        router.push('/admin/');
       } else {
         setError(res.message || 'Invalid admin credentials or secret key.');
       }
@@ -28,7 +28,7 @@ export default function AdminLogin() {
       // If server unreachable, check default admin key locally in dev
       if (password === 'urdhv_admin_2026_secure') {
         localStorage.setItem('urdhv_admin_key', password);
-        router.push('/admin');
+        router.push('/admin/');
         return;
       }
       setError(err.message || 'Authentication service unreachable.');
