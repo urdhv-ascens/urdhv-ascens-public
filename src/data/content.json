@@ -5,7 +5,7 @@
   },
   "hero": {
     "tagline": "A Digital Aesthetics & Functionality Hub",
-    "title": "We build brands that ascend.",
+    "title": "We help you to Ascend.",
     "description": "Ūrdhv Ascens delivers enterprise-grade design, digital presence management, and technical solutions for brands that demand distinction.",
     "backgroundImage": "/assets/images/favicon.png",
     "backgroundBlur": 32,
@@ -13,6 +13,7 @@
   },
   "about": {
     "title": "About Us",
+    "imageUrl": "/assets/images/about-graphic.png",
     "description": "At Ūrdhv Ascens, we don't just build websites or design logos - we architect digital legacies. We believe that aesthetics without robust functionality is merely decoration, and robust functionality without aesthetics is a missed connection. Our philosophy bridges this gap, delivering digital experiences that are as performant as they are beautiful.",
     "stats": [
       {

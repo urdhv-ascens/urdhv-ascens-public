@@ -137,7 +137,7 @@ export default function BookletsAdminPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64 text-zinc-400">
-        <Loader2 className="w-8 h-8 text-amber-400 animate-spin mr-3" />
+        <Loader2 className="w-8 h-8 text-emerald-400 animate-spin mr-3" />
         <span className="text-sm font-mono">Loading Booklet Catalog...</span>
       </div>
     );
@@ -154,7 +154,7 @@ export default function BookletsAdminPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white uppercase flex items-center gap-2">
-            <BookOpen className="w-6 h-6 text-amber-400" />
+            <BookOpen className="w-6 h-6 text-emerald-400" />
             <span>Booklet Management & Thumbnail Editor</span>
           </h1>
           <p className="text-zinc-400 text-xs mt-1">
@@ -172,7 +172,7 @@ export default function BookletsAdminPage() {
       </div>
 
       {statusMessage && (
-        <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-xs text-amber-300 font-medium">
+        <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-xs text-emerald-300 font-medium">
           {statusMessage}
         </div>
       )}
@@ -196,7 +196,7 @@ export default function BookletsAdminPage() {
                   onClick={() => selectBooklet(b)}
                   className={`p-3 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
                     isSelected
-                      ? 'bg-amber-500/10 border-amber-500/40 text-white'
+                      ? 'bg-emerald-500/10 border-emerald-500/40 text-white'
                       : 'bg-zinc-950 border-zinc-800/80 hover:border-zinc-700 text-zinc-300'
                   }`}
                 >
@@ -228,7 +228,7 @@ export default function BookletsAdminPage() {
           <div className="lg:col-span-8 bg-zinc-950 border border-zinc-800 rounded-2xl p-6 space-y-6">
             <div className="flex items-center justify-between border-b border-zinc-850 pb-4">
               <div>
-                <span className="text-[10px] uppercase tracking-widest font-mono text-amber-400">
+                <span className="text-[10px] uppercase tracking-widest font-mono text-emerald-400">
                   Editing Booklet
                 </span>
                 <h2 className="text-lg font-bold text-white">{selectedBooklet.title}</h2>
@@ -237,7 +237,7 @@ export default function BookletsAdminPage() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="inline-flex items-center space-x-2 px-4 py-2 bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs rounded-xl transition-all shadow-lg shadow-amber-500/10 disabled:opacity-50"
+                className="inline-flex items-center space-x-2 px-4 py-2 bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-xs rounded-lg transition-colors disabled:opacity-50"
               >
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 <span>Save Changes</span>
@@ -253,17 +253,17 @@ export default function BookletsAdminPage() {
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =
-                      'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400"><rect fill="%2318181b" width="300" height="400"/><text fill="%23d4af37" font-size="20" font-family="sans-serif" x="50%" y="50%" text-anchor="middle">COVER PREVIEW</text></svg>';
+                      'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400"><rect fill="%2318181b" width="300" height="400"/><text fill="%2300ff66" font-size="20" font-family="sans-serif" x="50%" y="50%" text-anchor="middle">COVER PREVIEW</text></svg>';
                   }}
                 />
-                <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-black/80 text-amber-400 backdrop-blur-md">
+                <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded text-[10px] font-semibold bg-black text-emerald-400 border border-emerald-500/30 backdrop-blur-md">
                   Active Cover
                 </span>
               </div>
 
               <div className="sm:col-span-8 space-y-3">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Manual Cover Selection</span>
                 </h3>
                 <p className="text-xs text-zinc-400 leading-relaxed">
@@ -271,8 +271,8 @@ export default function BookletsAdminPage() {
                 </p>
 
                 <div className="pt-2">
-                  <label className="inline-flex items-center space-x-2 px-3 py-2 bg-zinc-800 hover:bg-zinc-750 text-white rounded-xl text-xs font-medium cursor-pointer transition-colors border border-zinc-700">
-                    <Upload className="w-4 h-4 text-amber-400" />
+                  <label className="inline-flex items-center space-x-2 px-3 py-2 bg-zinc-800 hover:bg-zinc-750 text-white rounded-lg text-xs font-medium cursor-pointer transition-colors border border-zinc-700">
+                    <Upload className="w-4 h-4 text-emerald-400" />
                     <span>{uploadingImage ? 'Uploading Image...' : 'Upload Custom Cover Graphic'}</span>
                     <input
                       type="file"
@@ -302,7 +302,7 @@ export default function BookletsAdminPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                  <Layers className="w-3.5 h-3.5" />
+                  <Layers className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Select Any Page As Cover ({selectedBooklet.totalPages} Pages)</span>
                 </h3>
                 <span className="text-[11px] text-zinc-500">Click any thumbnail to set as cover</span>
@@ -320,7 +320,7 @@ export default function BookletsAdminPage() {
                       onClick={() => handleSelectPageAsCover(pageIdx)}
                       className={`relative aspect-[3/4] rounded-lg overflow-hidden border transition-all ${
                         isCurrentPage
-                          ? 'border-amber-400 ring-2 ring-amber-500/50 scale-95'
+                          ? 'border-emerald-400 ring-2 ring-emerald-500/50 scale-95'
                           : 'border-zinc-800 hover:border-zinc-600 opacity-70 hover:opacity-100'
                       }`}
                     >
@@ -338,8 +338,8 @@ export default function BookletsAdminPage() {
                         {pageIdx}
                       </span>
                       {isCurrentPage && (
-                        <div className="absolute inset-0 bg-amber-500/20 flex items-center justify-center">
-                          <Check className="w-4 h-4 text-amber-400 drop-shadow" />
+                        <div className="absolute inset-0 bg-emerald-500/20 flex items-center justify-center">
+                          <Check className="w-4 h-4 text-emerald-400 drop-shadow" />
                         </div>
                       )}
                     </button>
@@ -356,7 +356,7 @@ export default function BookletsAdminPage() {
                   type="text"
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
-                  className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500"
+                  className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
@@ -366,7 +366,7 @@ export default function BookletsAdminPage() {
                   type="number"
                   value={editOrder}
                   onChange={(e) => setEditOrder(parseInt(e.target.value, 10) || 1)}
-                  className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500"
+                  className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
@@ -376,7 +376,7 @@ export default function BookletsAdminPage() {
                   rows={2}
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
-                  className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500"
+                  className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
@@ -386,7 +386,7 @@ export default function BookletsAdminPage() {
                   id="activeCheck"
                   checked={editActive}
                   onChange={(e) => setEditActive(e.target.checked)}
-                  className="rounded bg-zinc-900 border-zinc-800 text-amber-500 focus:ring-amber-500"
+                  className="rounded bg-zinc-900 border-zinc-800 text-emerald-500 focus:ring-emerald-500"
                 />
                 <label htmlFor="activeCheck" className="text-xs font-semibold text-zinc-300 cursor-pointer">
                   Booklet Active (Visible in Viewer Library)
@@ -398,7 +398,7 @@ export default function BookletsAdminPage() {
                   href={`${selectedBooklet.cdnBaseUrl}/manifest.json`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-amber-400 hover:text-amber-300 inline-flex items-center gap-1 font-mono"
+                  className="text-xs text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 font-mono"
                 >
                   <span>View CDN Manifest</span>
                   <ExternalLink className="w-3 h-3" />

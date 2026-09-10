@@ -55,8 +55,8 @@ export function Hero({ onOpenCourseModal }: HeroProps) {
           </span>
         </div>
         
-        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.05] mb-6 max-w-5xl text-white uppercase">
-          {heroContent.title || 'DESIGNED TO DISTINGUISH'}
+        <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.08] sm:leading-[1.05] mb-6 max-w-5xl text-white">
+          {heroContent.title || 'We help you to Ascend.'}
         </h1>
         
         <p className="text-lg sm:text-xl md:text-2xl text-zinc-400 max-w-3xl mb-10 leading-relaxed font-normal">

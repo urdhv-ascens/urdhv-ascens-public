@@ -207,24 +207,24 @@ function CapabilityTrack({
           <div
             key={`${item.id}-${idx}`}
             onClick={(e) => handleClick(item, e)}
-            className="w-[280px] sm:w-[320px] shrink-0 p-5 rounded-2xl bg-zinc-950/90 border border-zinc-850 hover:border-emerald-500/50 hover:bg-zinc-900/80 transition-all duration-300 group backdrop-blur-sm flex flex-col justify-between"
+            className="w-[230px] sm:w-[280px] md:w-[320px] shrink-0 p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-zinc-950/90 border border-zinc-850 hover:border-emerald-500/50 hover:bg-zinc-900/80 transition-all duration-300 group backdrop-blur-sm flex flex-col justify-between"
           >
             <div>
               {/* Header Badge & Icon */}
-              <div className="flex items-center justify-between mb-3.5">
-                <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono tracking-wider uppercase text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
+              <div className="flex items-center justify-between mb-2.5 sm:mb-3.5">
+                <span className="px-2 py-0.5 rounded-md text-[9px] sm:text-[10px] font-mono tracking-wider uppercase text-emerald-400 bg-emerald-500/10 border border-emerald-500/20">
                   {item.category}
                 </span>
-                <div className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 group-hover:scale-110 group-hover:border-emerald-500/30 transition-all">
-                  {ICONS_MAP[item.icon] || <Sparkles className="w-5 h-5 text-emerald-400" />}
+                <div className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-zinc-900 border border-zinc-800 group-hover:scale-110 group-hover:border-emerald-500/30 transition-all">
+                  {ICONS_MAP[item.icon] || <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-400" />}
                 </div>
               </div>
 
               {/* Title & Description */}
-              <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-emerald-300 transition-colors line-clamp-1 mb-2">
+              <h3 className="text-sm sm:text-base md:text-lg font-bold text-white group-hover:text-emerald-300 transition-colors line-clamp-1 mb-1.5 sm:mb-2">
                 {item.title}
               </h3>
-              <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed line-clamp-2">
+              <p className="text-zinc-400 text-[11px] sm:text-xs md:text-sm leading-relaxed line-clamp-2">
                 {item.description}
               </p>
             </div>
