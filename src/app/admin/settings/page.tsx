@@ -364,10 +364,10 @@ export default function SiteSettings() {
                 <label className="text-xs font-mono text-zinc-400 uppercase">Logo URL or Asset Path</label>
                 <input 
                   type="text" 
-                  value={data.navigation?.logoUrl || '/logo.png'} 
+                  value={data.navigation?.logoUrl || '/logo.webp'} 
                   onChange={e => setData({...data, navigation: {...data.navigation, logoUrl: e.target.value}} as any)}
                   className="px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-sm text-white font-mono focus:border-emerald-400 focus:outline-none" 
-                  placeholder="/logo.png"
+                  placeholder="/logo.webp"
                 />
               </div>
             </div>
@@ -605,7 +605,7 @@ export default function SiteSettings() {
                   <label className="text-[11px] font-mono text-zinc-400">Image URL or Local Asset Path</label>
                   <input
                     type="text"
-                    value={data.hero?.backgroundImage || '/assets/images/favicon.png'}
+                    value={data.hero?.backgroundImage || '/assets/images/favicon.webp'}
                     onChange={e => setData({...data, hero: {...data.hero, backgroundImage: e.target.value}})}
                     className="px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white font-mono"
                   />
@@ -648,7 +648,7 @@ export default function SiteSettings() {
                 <div
                   className="w-24 h-24 bg-contain bg-center bg-no-repeat transition-all"
                   style={{
-                    backgroundImage: `url('${data.hero?.backgroundImage || '/assets/images/favicon.png'}')`,
+                    backgroundImage: `url('${data.hero?.backgroundImage || '/assets/images/favicon.webp'}')`,
                     filter: `blur(${data.hero?.backgroundBlur ?? 32}px)`,
                     opacity: (data.hero?.backgroundOpacity ?? 20) / 100,
                   }}
@@ -706,7 +706,7 @@ export default function SiteSettings() {
                 <label className="text-xs font-mono text-zinc-400 uppercase">Studio Imagery URL</label>
                 <input 
                   type="text" 
-                  value={data.about?.imageUrl || '/assets/images/about-studio.png'} 
+                  value={data.about?.imageUrl || '/assets/images/About-Us.webp'} 
                   onChange={e => setData({...data, about: {...data.about, imageUrl: e.target.value}})}
                   className="px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-sm text-white font-mono" 
                 />

@@ -28,7 +28,7 @@ export function Navigation() {
 
   const navLinks = content.navigation?.links?.length ? content.navigation.links : DEFAULT_NAV_LINKS;
   const brandTitle = content.navigation?.brandTitle || content.siteSettings?.companyName || 'ŪRDHV ASCENS';
-  const logoUrl = content.navigation?.logoUrl || content.siteSettings?.logoUrl || '/logo.png';
+  const logoUrl = content.navigation?.logoUrl || content.siteSettings?.logoUrl || '/logo.webp';
   const viewerUrl = content.siteSettings?.viewerUrl || 'https://urdhv-viewer.pages.dev';
   const courseBtn = content.navigation?.courseButton || { text: 'AI Courses (Free)', href: viewerUrl };
   const ctaBtn = content.navigation?.ctaButton || { text: 'Discuss Project', href: '/#contact' };

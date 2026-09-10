@@ -25,24 +25,24 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/icon.png", sizes: "512x512", type: "image/png" },
+      { url: "/favicon-32x32.webp", sizes: "32x32", type: "image/webp" },
+      { url: "/favicon-16x16.webp", sizes: "16x16", type: "image/webp" },
+      { url: "/icon.webp", sizes: "512x512", type: "image/webp" },
+      { url: "/favicon.ico", sizes: "any" },
     ],
     apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/apple-touch-icon.webp", sizes: "180x180", type: "image/webp" },
+      { url: "/apple-icon.webp", sizes: "180x180", type: "image/webp" },
     ],
     other: [
       {
         rel: "android-chrome-192x192",
-        url: "/android-chrome-192x192.png",
+        url: "/android-chrome-192x192.webp",
       },
       {
         rel: "android-chrome-512x512",
-        url: "/android-chrome-512x512.png",
+        url: "/android-chrome-512x512.webp",
       },
     ],
   },

@@ -9,7 +9,7 @@ export function Footer() {
   const { content } = useCMSContent();
 
   const brandTitle = content.navigation?.brandTitle || 'ŪRDHV ASCENS';
-  const logoUrl = content.navigation?.logoUrl || '/logo.png';
+  const logoUrl = content.navigation?.logoUrl || '/logo.webp';
   const footerConfig = content.footer || {};
   const contact = content.contact || {};
   const viewerBase = content.siteSettings?.viewerUrl || 'https://urdhv-viewer.pages.dev';

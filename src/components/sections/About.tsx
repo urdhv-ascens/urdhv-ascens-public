@@ -7,7 +7,7 @@ export function About() {
     category: "The Philosophy",
     title: "Evolving the Standard of Digital Presence.",
     description: "",
-    imageUrl: "/assets/images/about-graphic.png",
+    imageUrl: "/assets/images/About-Us.webp",
     badges: {
       badge1: "STUDIO PHILOSOPHY",
       badge2: "DIGITAL ARCHITECTURE",
@@ -65,34 +65,51 @@ export function About() {
             </div>
           </div>
           
-          {/* Right Column: Image Holder where the counters were */}
-          <div className="relative w-full max-w-md mx-auto lg:max-w-none">
-            <div className="relative aspect-[16/10] sm:aspect-[4/3] rounded-xl sm:rounded-2xl overflow-hidden border border-zinc-850 bg-zinc-950 group shadow-2xl">
-              <img
-                src={about.imageUrl || "/assets/images/about-graphic.png"}
-                alt="Ūrdhv Ascens Studio Philosophy & Digital Architecture"
-                loading="lazy"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/assets/images/favicon.png';
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-
-              {/* Aesthetic Badges */}
-              <div className="absolute top-2.5 sm:top-3.5 left-2.5 sm:left-3.5 flex items-center space-x-1.5 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg bg-black border border-zinc-800 text-[9px] sm:text-[10px] font-mono font-bold text-emerald-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>{badge1}</span>
+          {/* Right Column: Mascot & Studio Imagery Showcase */}
+          <div className="relative w-full max-w-lg mx-auto lg:max-w-none flex flex-col items-center">
+            <div className="relative w-full rounded-2xl border border-zinc-800/90 bg-zinc-950/90 hover:border-emerald-500/40 transition-all duration-500 shadow-2xl p-3 sm:p-4 group flex flex-col items-center backdrop-blur-sm">
+              
+              {/* Studio Card Header */}
+              <div className="w-full flex items-center justify-between pb-3 mb-3 border-b border-zinc-850/80 px-1 text-[11px] font-mono">
+                <div className="flex items-center gap-2 text-zinc-300">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="font-bold tracking-wider text-emerald-400 uppercase">{badge1}</span>
+                </div>
+                <span className="px-2 py-0.5 rounded text-[10px] bg-zinc-900 border border-zinc-800 text-zinc-400">
+                  ŪRDHV ARCHITECTURE
+                </span>
               </div>
 
-              <div className="absolute bottom-2.5 sm:bottom-3.5 left-2.5 sm:left-3.5 right-2.5 sm:right-3.5 flex items-center justify-between text-[10px] sm:text-[11px] font-mono text-zinc-400">
-                <span className="px-1.5 sm:px-2 py-0.5 rounded bg-black border border-zinc-800">
+              {/* Artwork Container: Pristine, uncropped display */}
+              <div className="relative w-full aspect-[960/805] max-h-[460px] rounded-xl overflow-hidden bg-black flex items-center justify-center border border-zinc-900">
+                <img
+                  src={about.imageUrl || "/assets/images/About-Us.webp"}
+                  alt="Ūrdhv Ascens Studio Mascot & Digital Architecture"
+                  loading="lazy"
+                  className="w-full h-full object-contain group-hover:scale-[1.02] transition-transform duration-700 select-none"
+                  onError={(e) => {
+                    const img = e.target as HTMLImageElement;
+                    if (!img.src.includes('About-Us.webp')) {
+                      img.src = '/assets/images/About-Us.webp';
+                    } else if (!img.src.includes('about-us.webp')) {
+                      img.src = '/assets/images/about-us.webp';
+                    } else {
+                      img.src = '/assets/images/favicon.webp';
+                    }
+                  }}
+                />
+              </div>
+
+              {/* Studio Card Badges Footer */}
+              <div className="w-full pt-3 mt-3 border-t border-zinc-850/80 flex items-center justify-between gap-2 px-1 text-[10px] sm:text-[11px] font-mono">
+                <span className="px-2.5 py-1 rounded-md bg-zinc-900/90 border border-zinc-800 text-zinc-300">
                   {badge2}
                 </span>
-                <span className="px-1.5 sm:px-2 py-0.5 rounded bg-black border border-zinc-800 text-emerald-400">
+                <span className="px-2.5 py-1 rounded-md bg-zinc-900/90 border border-zinc-800 text-emerald-400 font-bold">
                   {badge3}
                 </span>
               </div>
+
             </div>
           </div>
         </div>

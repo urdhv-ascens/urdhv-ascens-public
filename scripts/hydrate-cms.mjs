@@ -27,8 +27,18 @@ async function hydrate() {
     if (res.ok) {
       const data = await res.json();
       if (data && typeof data === 'object' && !data.error && data.hero) {
-        await fs.writeFile(contentPath, JSON.stringify(data, null, 2), 'utf8');
-        console.log('✅ Successfully hydrated content.json from Hostinger Control Center!');
+        // Sanitize legacy PNG image references to WebP
+        let rawStr = JSON.stringify(data);
+        rawStr = rawStr.replace(/about-graphic\.(png|webp)/gi, 'About-Us.webp');
+        rawStr = rawStr.replace(/about-us\.png/gi, 'About-Us.webp');
+        rawStr = rawStr.replace(/about-us\.webp/gi, 'About-Us.webp');
+        rawStr = rawStr.replace(/\.png/gi, '.webp');
+        const sanitized = JSON.parse(rawStr);
+        if (sanitized.about) {
+          sanitized.about.imageUrl = '/assets/images/About-Us.webp';
+        }
+        await fs.writeFile(contentPath, JSON.stringify(sanitized, null, 2), 'utf8');
+        console.log('✅ Successfully hydrated content.json from Hostinger Control Center (sanitized to WebP)!');
         return;
       }
     }

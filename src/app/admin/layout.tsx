@@ -57,7 +57,7 @@ export default function AdminLayout({
         <aside className="w-64 border-r border-zinc-800 bg-zinc-950 flex flex-col shrink-0 hidden md:flex">
           <div className="p-5 border-b border-zinc-800 flex items-center justify-between">
             <Link href="/admin" className="flex items-center gap-2.5">
-              <img src="/logo.png" alt="Ūrdhv Ascens" className="h-6 w-auto object-contain" />
+              <img src="/logo.webp" alt="Ūrdhv Ascens" className="h-6 w-auto object-contain" />
               <span className="text-base font-black tracking-wider text-white uppercase">
                 ŪRDHV <span className="text-emerald-400">CONTROL</span>
               </span>

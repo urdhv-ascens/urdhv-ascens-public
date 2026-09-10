@@ -12,7 +12,7 @@ export function Hero({ onOpenCourseModal }: HeroProps) {
   const { content } = useCMSContent();
   const heroContent = content.hero || {};
 
-  const bgImage = heroContent.backgroundImage || '/assets/images/favicon.png';
+  const bgImage = heroContent.backgroundImage || '/assets/images/favicon.webp';
   const blurAmount = heroContent.backgroundBlur ?? 32;
   const opacityVal = (heroContent.backgroundOpacity ?? 20) / 100;
 
