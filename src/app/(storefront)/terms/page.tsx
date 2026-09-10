@@ -12,14 +12,14 @@ export default function TermsPage() {
       <div className="max-w-3xl mx-auto space-y-8">
         <Link
           href="/"
-          className="inline-flex items-center space-x-2 text-xs font-semibold text-amber-400 hover:text-amber-300 transition-colors"
+          className="inline-flex items-center space-x-2 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Return to Studio Flagship</span>
         </Link>
 
         <div className="border-b border-zinc-800 pb-6">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-mono mb-3">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-mono mb-3">
             <FileText className="w-3.5 h-3.5" />
             <span>Effective Date: September 2026</span>
           </div>

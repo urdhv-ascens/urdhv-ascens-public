@@ -137,10 +137,11 @@ export interface CapabilityItem {
   descriptionHi?: string;
   icon: string;                    // Lucide icon name
   category: string;
-  featured: boolean;
+  featured?: boolean;
   mobileShortCopy?: string;
-  active: boolean;
-  displayOrder: number;
+  active?: boolean;
+  displayOrder?: number;
+  tags?: string[];
 }
 
 export interface ServiceTier {
@@ -160,14 +161,16 @@ export interface ServiceItem {
   id: string;
   title: string;
   titleHi?: string;
-  tagline: string;
+  tagline?: string;
   description: string;
   descriptionHi?: string;
-  category: string;
-  active: boolean;
-  featured: boolean;
-  displayOrder: number;
-  tiers: ServiceTier[];
+  category?: string;
+  active?: boolean;
+  featured?: boolean;
+  displayOrder?: number;
+  number?: string;
+  tags?: string[];
+  tiers?: ServiceTier[];
 }
 
 export interface ProjectItem {
@@ -178,7 +181,7 @@ export interface ProjectItem {
   shortDescription: string;
   description: string;
   tech: string[];
-  status: 'ACTIVE' | 'FEATURED' | 'ARCHIVED';
+  status: 'ACTIVE' | 'FEATURED' | 'ARCHIVED' | string;
   lastUpdated: string;
   url?: string;
   client?: string;
@@ -256,6 +259,9 @@ export interface ContentRecord {
     tagline: string;
     title: string;
     description: string;
+    intervalSeconds?: number;
+    autoplay?: boolean;
+    list?: ProjectItem[];
   };
   projectsList: ProjectItem[];
   about: AboutContent;

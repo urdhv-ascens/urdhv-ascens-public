@@ -2,12 +2,10 @@
 
 import { useState } from 'react';
 import { Hero } from "@/components/sections/Hero";
-import { InfiniteTwoRowCarousel } from "@/components/sections/InfiniteTwoRowCarousel";
-import { About } from "@/components/sections/About";
 import { Capabilities } from "@/components/sections/Capabilities";
+import { About } from "@/components/sections/About";
 import { Projects } from "@/components/sections/Projects";
 import { Services } from "@/components/sections/Services";
-import { Pricing } from "@/components/sections/Pricing";
 import { Contact } from "@/components/sections/Contact";
 import { CourseEntryModal } from "@/components/sections/CourseEntryModal";
 
@@ -15,14 +13,18 @@ export default function Home() {
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
 
   return (
-    <div className="bg-black text-white selection:bg-amber-500/20 selection:text-amber-300 min-h-screen">
+    <div className="bg-black text-white selection:bg-emerald-500/20 selection:text-emerald-300 min-h-screen">
       <Hero onOpenCourseModal={() => setIsCourseModalOpen(true)} />
-      <InfiniteTwoRowCarousel onOpenCourseModal={() => setIsCourseModalOpen(true)} />
+      
+      {/* Studio Capabilities Infinite Two-Row Small Card Carousel */}
+      <Capabilities onOpenCourseModal={() => setIsCourseModalOpen(true)} />
+      
       <About />
-      <Capabilities />
       <Projects />
-      <Services />
-      <Pricing />
+      
+      {/* Precision Services Infinite Two-Row Small Card Carousel */}
+      <Services onOpenCourseModal={() => setIsCourseModalOpen(true)} />
+      
       <Contact />
 
       {/* Interactive Visitor Course Access Flow (Spec §6) */}

@@ -52,7 +52,7 @@ export default function MediaLibrary() {
             return (
               <button 
                 onClick={() => open()} 
-                className="flex items-center gap-2 bg-primary text-primary-foreground px-6 py-2.5 rounded-md font-medium hover:bg-primary/90 transition-colors shadow-sm"
+                className="flex items-center gap-2 bg-emerald-400 text-black px-5 py-2.5 rounded-lg font-bold text-xs uppercase tracking-wider hover:bg-emerald-300 transition-colors"
               >
                 <UploadCloud size={20} />
                 Upload New Media

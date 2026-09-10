@@ -41,11 +41,11 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-black p-6">
       <div className="w-full max-w-md bg-zinc-950 border border-zinc-800 rounded-2xl p-8 shadow-2xl">
         <div className="flex flex-col items-center mb-8 text-center">
-          <div className="p-3 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-2xl mb-4">
+          <div className="p-3 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-xl mb-4">
             <Shield className="w-8 h-8" />
           </div>
           <h1 className="text-2xl font-black tracking-tight text-white uppercase">
-            ŪRDHV ASCENS <span className="text-amber-400">CONTROL PLANE</span>
+            ŪRDHV ASCENS <span className="text-emerald-400">CONTROL PLANE</span>
           </h1>
           <p className="text-zinc-400 text-xs mt-2">
             Hostinger Backend & CMS Security Gateway
@@ -53,7 +53,7 @@ export default function AdminLogin() {
         </div>
 
         {error && (
-          <div className="mb-6 p-3.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded-xl text-xs flex items-center space-x-2">
+          <div className="mb-6 p-3.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded-lg text-xs flex items-center space-x-2">
             <Lock className="w-4 h-4 flex-shrink-0" />
             <span>{error}</span>
           </div>
@@ -67,7 +67,7 @@ export default function AdminLogin() {
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500 transition-colors" 
+              className="px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors" 
               placeholder="admin@urdhvascens.com"
             />
           </div>
@@ -83,7 +83,7 @@ export default function AdminLogin() {
                 required
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                className="w-full px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-sm text-white focus:outline-none focus:border-amber-500 transition-colors pr-10" 
+                className="w-full px-4 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors pr-10" 
                 placeholder="••••••••••••••••"
               />
               <Key className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
@@ -93,7 +93,7 @@ export default function AdminLogin() {
           <button 
             type="submit" 
             disabled={loading}
-            className="mt-4 w-full py-3 bg-amber-500 hover:bg-amber-400 text-black font-bold text-sm rounded-xl transition-all shadow-lg shadow-amber-500/10 disabled:opacity-50 flex items-center justify-center space-x-2"
+            className="mt-4 w-full py-3 bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-xs uppercase tracking-wider rounded-lg transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
           >
             <Lock className="w-4 h-4" />
             <span>{loading ? 'Authenticating...' : 'Access Control Plane'}</span>

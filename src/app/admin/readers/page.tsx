@@ -55,7 +55,7 @@ export default function ReadersAdminPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black tracking-tight text-white uppercase flex items-center gap-2">
-            <Users className="w-6 h-6 text-amber-400" />
+            <Users className="w-6 h-6 text-emerald-400" />
             <span>Reader Leads & Course Visitors</span>
           </h1>
           <p className="text-zinc-400 text-xs mt-1">
@@ -68,14 +68,14 @@ export default function ReadersAdminPage() {
             href={getReadersCsvExportUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 px-3.5 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-xs font-semibold text-zinc-200 transition-colors"
+            className="inline-flex items-center space-x-2 px-3.5 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-xs font-semibold text-zinc-200 transition-colors"
           >
-            <Download className="w-3.5 h-3.5 text-amber-400" />
+            <Download className="w-3.5 h-3.5 text-emerald-400" />
             <span>Export CSV</span>
           </a>
           <button
             onClick={loadReaders}
-            className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white"
+            className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white"
           >
             <RefreshCw className="w-4 h-4" />
           </button>
@@ -91,7 +91,7 @@ export default function ReadersAdminPage() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search name, email, institution..."
-            className="w-full pl-9 pr-4 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500"
+            className="w-full pl-9 pr-4 py-2 bg-zinc-950 border border-zinc-800 rounded-lg text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
           />
         </form>
 
@@ -100,7 +100,7 @@ export default function ReadersAdminPage() {
           <select
             value={courseFilter}
             onChange={e => setCourseFilter(e.target.value)}
-            className="bg-zinc-950 border border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-zinc-300 focus:outline-none focus:border-amber-500"
+            className="bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-1.5 text-xs text-zinc-300 focus:outline-none focus:border-emerald-500"
           >
             <option value="">All Courses</option>
             <option value="students-ai">Students AI Course</option>
@@ -128,7 +128,7 @@ export default function ReadersAdminPage() {
               {loading ? (
                 <tr>
                   <td colSpan={7} className="px-4 py-8 text-center text-zinc-500">
-                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-amber-400" />
+                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2 text-emerald-400" />
                     <span>Loading reader records...</span>
                   </td>
                 </tr>
@@ -150,7 +150,7 @@ export default function ReadersAdminPage() {
                       )}
                     </td>
                     <td className="px-4 py-3">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-zinc-900 border border-zinc-800 text-amber-400">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-zinc-900 border border-zinc-800 text-emerald-400">
                         {r.courseSelected}
                       </span>
                     </td>

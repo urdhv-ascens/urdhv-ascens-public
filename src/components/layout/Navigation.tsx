@@ -21,7 +21,6 @@ export function Navigation() {
     { label: 'Capabilities', href: '/#capabilities' },
     { label: 'Services', href: '/#services' },
     { label: 'Work', href: '/#projects' },
-    { label: 'Pricing', href: '/#pricing' },
     { label: 'Contact', href: '/#contact' },
   ];
 
@@ -30,13 +29,16 @@ export function Navigation() {
       className={cn(
         'fixed top-0 w-full z-50 transition-all duration-300 border-b border-transparent',
         isScrolled
-          ? 'bg-black/90 backdrop-blur-md border-zinc-800/80 py-3.5 shadow-xl'
+          ? 'bg-black/90 backdrop-blur-md border-zinc-850 py-3.5 shadow-xl shadow-black/50'
           : 'bg-transparent py-5'
       )}
     >
       <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
-        <Link href="/" className="text-xl sm:text-2xl font-black tracking-widest uppercase text-white">
-          ŪRDHV <span className="text-amber-400">ASCENS</span>
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <img src="/logo.png" alt="Ūrdhv Ascens" className="h-8 w-auto object-contain transition-transform group-hover:scale-105" />
+          <span className="text-xl sm:text-2xl font-black tracking-widest uppercase text-white">
+            ŪRDHV <span className="text-emerald-400">ASCENS</span>
+          </span>
         </Link>
 
         {/* Desktop Nav */}
@@ -45,7 +47,7 @@ export function Navigation() {
             <Link
               key={link.label}
               href={link.href}
-              className="text-xs font-semibold uppercase tracking-wider text-zinc-400 hover:text-white transition-colors"
+              className="text-xs font-semibold uppercase tracking-wider text-zinc-400 hover:text-emerald-400 transition-colors"
             >
               {link.label}
             </Link>
@@ -55,7 +57,7 @@ export function Navigation() {
             href="https://viewer.urdhvascens.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 text-xs font-semibold uppercase tracking-wider transition-all"
+            className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 text-xs font-semibold uppercase tracking-wider transition-all"
           >
             <Sparkles className="w-3 h-3" />
             <span>AI Courses (Free)</span>
@@ -63,7 +65,7 @@ export function Navigation() {
 
           <Link
             href="/#contact"
-            className="px-5 py-2 text-xs font-bold uppercase tracking-wider bg-amber-500 text-black rounded-full hover:bg-amber-400 transition-all shadow-md shadow-amber-500/10"
+            className="px-5 py-2 text-xs font-bold uppercase tracking-wider bg-emerald-400 text-black rounded-lg hover:bg-emerald-300 transition-colors"
           >
             Discuss Project
           </Link>
@@ -71,7 +73,7 @@ export function Navigation() {
 
         {/* Mobile Nav Toggle */}
         <button
-          className="md:hidden p-2 text-white"
+          className="md:hidden p-2 text-white hover:text-emerald-400 transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle Menu"
         >
@@ -86,7 +88,7 @@ export function Navigation() {
             <Link
               key={link.label}
               href={link.href}
-              className="text-sm font-semibold uppercase tracking-wider py-2 border-b border-zinc-850 text-zinc-300 hover:text-amber-400"
+              className="text-sm font-semibold uppercase tracking-wider py-2 border-b border-zinc-850 text-zinc-300 hover:text-emerald-400"
               onClick={() => setMobileMenuOpen(false)}
             >
               {link.label}
@@ -94,7 +96,7 @@ export function Navigation() {
           ))}
           <a
             href="https://viewer.urdhvascens.com"
-            className="text-sm font-semibold uppercase tracking-wider py-2 text-amber-400 flex items-center space-x-2"
+            className="text-sm font-semibold uppercase tracking-wider py-2 text-emerald-400 flex items-center space-x-2"
             onClick={() => setMobileMenuOpen(false)}
           >
             <Sparkles className="w-4 h-4" />
@@ -102,7 +104,7 @@ export function Navigation() {
           </a>
           <Link
             href="/#contact"
-            className="mt-2 px-6 py-3 text-center text-xs font-bold uppercase tracking-wider bg-amber-500 text-black rounded-full"
+            className="mt-2 px-6 py-3 text-center text-xs font-bold uppercase tracking-wider bg-emerald-400 text-black rounded-lg hover:bg-emerald-300"
             onClick={() => setMobileMenuOpen(false)}
           >
             Discuss Project

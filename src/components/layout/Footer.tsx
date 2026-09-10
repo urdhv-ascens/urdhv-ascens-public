@@ -8,15 +8,18 @@ export function Footer() {
       <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-start gap-12">
         
         <div className="flex flex-col max-w-sm gap-4">
-          <Link href="/" className="text-2xl font-black tracking-widest uppercase">
-            ŪRDHV <span className="text-amber-400">ASCENS</span>
+          <Link href="/" className="flex items-center gap-2.5">
+            <img src="/logo.png" alt="Ūrdhv Ascens" className="h-8 w-auto object-contain" />
+            <span className="text-2xl font-black tracking-widest uppercase">
+              ŪRDHV <span className="text-emerald-400">ASCENS</span>
+            </span>
           </Link>
           <p className="text-zinc-400 text-xs sm:text-sm leading-relaxed">
             A bespoke digital studio for brands that refuse to blend in.
             Precision engineered. Distinctly elevated.
           </p>
           <span className="text-[11px] font-mono text-zinc-600">
-            Based in India • Serving Select Global Engagements
+            Based in India / Serving Select Global Engagements
           </span>
         </div>
 
@@ -27,13 +30,13 @@ export function Footer() {
             <Link href="/#capabilities" className="text-xs text-zinc-400 hover:text-white transition-colors">Capabilities</Link>
             <Link href="/#services" className="text-xs text-zinc-400 hover:text-white transition-colors">Services</Link>
             <Link href="/#projects" className="text-xs text-zinc-400 hover:text-white transition-colors">Selected Work</Link>
-            <Link href="/#pricing" className="text-xs text-zinc-400 hover:text-white transition-colors">Pricing Plans</Link>
+            <Link href="/#contact" className="text-xs text-zinc-400 hover:text-white transition-colors">Contact</Link>
           </div>
           
           <div className="flex flex-col gap-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">Curriculum</h4>
-            <a href="https://viewer.urdhvascens.com?course=students-ai" target="_blank" rel="noopener noreferrer" className="text-xs text-amber-400 hover:text-amber-300 transition-colors">Students AI Track</a>
-            <a href="https://viewer.urdhvascens.com?course=teachers-ai" target="_blank" rel="noopener noreferrer" className="text-xs text-amber-400 hover:text-amber-300 transition-colors">Teachers AI Toolkit</a>
+            <a href="https://viewer.urdhvascens.com?course=students-ai" target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Students AI Track</a>
+            <a href="https://viewer.urdhvascens.com?course=teachers-ai" target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Teachers AI Toolkit</a>
             <a href="https://viewer.urdhvascens.com" target="_blank" rel="noopener noreferrer" className="text-xs text-zinc-400 hover:text-white transition-colors">Booklet Library</a>
           </div>
 
@@ -47,7 +50,7 @@ export function Footer() {
 
           <div className="flex flex-col gap-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">Direct Contact</h4>
-            <a href="mailto:urdhvascens@gmail.com" className="text-xs text-zinc-400 hover:text-amber-400 transition-colors font-mono">
+            <a href="mailto:urdhvascens@gmail.com" className="text-xs text-zinc-400 hover:text-emerald-400 transition-colors font-mono">
               urdhvascens@gmail.com
             </a>
             <p className="text-xs text-zinc-400 font-mono">+91 7891085020</p>

@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { db } from '@/core/firebase/config';
-import { doc, getDoc } from 'firebase/firestore';
+import { getLiveContent } from '@/lib/api-client';
 
 export function PublishButton() {
   const [isPublishing, setIsPublishing] = useState(false);
@@ -10,14 +9,11 @@ export function PublishButton() {
   const handlePublish = async () => {
     setIsPublishing(true);
     try {
-      // Fetch the Webhook URL from Firestore first
-      const docRef = doc(db, 'config', 'siteSettings');
-      const docSnap = await getDoc(docRef);
-      
+      const content = await getLiveContent();
       let webhookUrl = process.env.NEXT_PUBLIC_CLOUDFLARE_DEPLOY_WEBHOOK_URL;
       
-      if (docSnap.exists() && docSnap.data().cloudflareWebhookUrl) {
-        webhookUrl = docSnap.data().cloudflareWebhookUrl;
+      if (content && (content as any).cloudflareWebhookUrl) {
+        webhookUrl = (content as any).cloudflareWebhookUrl;
       }
       
       if (!webhookUrl) {
@@ -42,8 +38,8 @@ export function PublishButton() {
     <button 
       onClick={handlePublish}
       disabled={isPublishing}
-      className={`px-4 py-1.5 bg-primary text-primary-foreground text-sm font-medium rounded-full shadow-sm transition-colors ${
-        isPublishing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-primary/90'
+      className={`px-4 py-1.5 bg-emerald-400 text-black font-bold text-xs uppercase tracking-wider rounded-lg transition-colors ${
+        isPublishing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-emerald-300'
       }`}
     >
       {isPublishing ? 'Publishing...' : 'Publish Site'}

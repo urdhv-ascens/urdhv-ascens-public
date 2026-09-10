@@ -1,65 +1,394 @@
+'use client';
+
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  ExternalLink, 
+  ArrowRight,
+  Layers,
+  Pause,
+  Play
+} from 'lucide-react';
 import contentData from "@/data/content.json";
+import { getLiveContent } from "@/lib/api-client";
+import type { ProjectItem } from "@/core/types";
 
 export function Projects() {
-  const { projects, projectsList } = contentData;
-  
-  // Filter for ACTIVE projects only
-  const activeProjects = (projectsList || []).filter(p => p.status === 'ACTIVE');
+  const [projectsMeta, setProjectsMeta] = useState((contentData as any).projects || {
+    tagline: "SELECTED WORK",
+    title: "Curated Projects",
+    description: "Digital systems and client flagship productions delivered with precision.",
+    intervalSeconds: 5,
+    autoPlay: true
+  });
+
+  const [projects, setProjects] = useState<ProjectItem[]>(
+    ((contentData as any).projectsList || []).filter((p: any) => p.status === 'ACTIVE')
+  );
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0); // 0 to 100%
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Hydrate live from Hostinger API
+  useEffect(() => {
+    async function loadLive() {
+      try {
+        const content = await getLiveContent();
+        if (content) {
+          if ((content as any).projects) {
+            setProjectsMeta((content as any).projects);
+          }
+          if (content.projectsList && Array.isArray(content.projectsList)) {
+            const active = content.projectsList.filter((p: any) => p.status === 'ACTIVE');
+            if (active.length > 0) {
+              setProjects(active);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Using bundled projects fallback:', err);
+      }
+    }
+    loadLive();
+  }, []);
+
+  const total = projects.length;
+  const intervalDurationMs = Math.max((projectsMeta.intervalSeconds || 5) * 1000, 2000);
+  const tickIntervalMs = 40;
+
+  // Infinite looping slide navigation
+  const nextSlide = useCallback(() => {
+    if (total <= 1) return;
+    setIsTransitioning(true);
+    setCurrentIndex(prev => (prev + 1) % total);
+    setProgress(0);
+    setTimeout(() => setIsTransitioning(false), 400);
+  }, [total]);
+
+  const prevSlide = useCallback(() => {
+    if (total <= 1) return;
+    setIsTransitioning(true);
+    setCurrentIndex(prev => (prev - 1 + total) % total);
+    setProgress(0);
+    setTimeout(() => setIsTransitioning(false), 400);
+  }, [total]);
+
+  const goToSlide = (idx: number) => {
+    if (idx === currentIndex) return;
+    setIsTransitioning(true);
+    setCurrentIndex(idx);
+    setProgress(0);
+    setTimeout(() => setIsTransitioning(false), 400);
+  };
+
+  // Equal-interval timer engine with infinite looping
+  useEffect(() => {
+    if (total <= 1 || isPaused || projectsMeta.autoPlay === false) return;
+
+    const intervalTimer = setInterval(() => {
+      setProgress(prev => {
+        const nextProg = prev + (tickIntervalMs / intervalDurationMs) * 100;
+        if (nextProg >= 100) {
+          nextSlide();
+          return 0;
+        }
+        return nextProg;
+      });
+    }, tickIntervalMs);
+
+    return () => clearInterval(intervalTimer);
+  }, [total, isPaused, intervalDurationMs, nextSlide, projectsMeta.autoPlay]);
+
+  // Pause on tab inactive
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (document.hidden) {
+        setIsPaused(true);
+      } else {
+        setIsPaused(false);
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
+
+  // Keyboard arrow navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const section = document.getElementById('projects');
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!inView) return;
+
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [prevSlide, nextSlide]);
+
+  // Touch swipe support
+  const touchStartX = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+    touchStartX.current = null;
+  };
+
+  if (total === 0) return null;
+
+  const currentProject = projects[currentIndex] || projects[0];
 
   return (
-    <section id="projects" className="py-24 bg-secondary/30">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <section 
+      id="projects" 
+      className="relative w-full py-20 md:py-32 bg-zinc-950 border-b border-zinc-900 overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header with Equal-Interval Looping Controls */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
           <div>
-            <span className="text-primary text-sm font-bold tracking-widest uppercase mb-4 block">{projects.tagline}</span>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-4">{projects.title}</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl">
-              {projects.description}
+            <span className="text-emerald-400 text-xs font-mono font-bold tracking-widest uppercase mb-2 block">
+              {projectsMeta.tagline || 'SELECTED WORK'}
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+              {projectsMeta.title || 'Curated Projects'}
+            </h2>
+            <p className="text-zinc-400 text-sm sm:text-base mt-2 max-w-2xl">
+              {projectsMeta.description || 'Digital systems and client flagship productions delivered with precision.'}
             </p>
           </div>
-          <Link href="/projects" className="shrink-0 px-6 py-3 rounded-full border border-border hover:bg-secondary transition-colors font-medium text-sm">
-            View All Projects
-          </Link>
+
+          {/* Slideshow Controls */}
+          {total > 1 && (
+            <div className="flex items-center space-x-3 shrink-0">
+              <button
+                onClick={() => setIsPaused(!isPaused)}
+                aria-label={isPaused ? "Resume slideshow" : "Pause slideshow"}
+                className="p-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-emerald-400 hover:border-emerald-500/30 transition-all"
+                title={isPaused ? "Resume slideshow" : "Pause slideshow"}
+              >
+                {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+              </button>
+              <button
+                onClick={prevSlide}
+                aria-label="Previous project slide"
+                className="p-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={nextSlide}
+                aria-label="Next project slide"
+                className="p-2.5 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 transition-all"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
-        
-        <div className="grid gap-16">
-          {activeProjects.map((project, index) => (
-            <div key={index} className="grid md:grid-cols-2 gap-12 items-center group">
-              <div className="order-2 md:order-1 flex flex-col gap-6">
-                <span className="text-sm font-medium tracking-wider uppercase text-primary">
-                  {project.category}
-                </span>
-                <h3 className="text-3xl md:text-4xl font-bold">{project.name}</h3>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  {project.description || project.shortDescription}
+
+        {/* Slideshow Card Container */}
+        <div 
+          className="relative rounded-2xl bg-black/90 border border-zinc-850 p-6 sm:p-10 lg:p-14 overflow-hidden shadow-2xl transition-all duration-500"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+
+          {/* Progress Indicator Line (Equal Interval Timer) */}
+          {total > 1 && (
+            <div className="absolute top-0 left-0 right-0 h-1 bg-zinc-900">
+              <div 
+                className="h-full bg-gradient-to-r from-emerald-500 to-emerald-300 transition-all duration-75"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          )}
+
+          {/* Slide Content Grid with Smooth Transition */}
+          <div 
+            className={`grid lg:grid-cols-12 gap-8 lg:gap-12 items-center transition-opacity duration-300 ${
+              isTransitioning ? 'opacity-40' : 'opacity-100'
+            }`}
+          >
+            
+            {/* Left Content Column (7 cols) */}
+            <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
+              
+              <div className="space-y-4">
+                {/* Meta row: Index + Category + Status */}
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20">
+                    {String(currentIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+                  </span>
+                  <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
+                    {currentProject.category}
+                  </span>
+                  {currentProject.year && (
+                    <span className="text-xs font-mono text-zinc-600">
+                      / {currentProject.year}
+                    </span>
+                  )}
+                </div>
+
+                {/* Project Title */}
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
+                  {currentProject.name}
+                </h3>
+
+                {/* Client Reference */}
+                {currentProject.client && (
+                  <p className="text-xs sm:text-sm font-mono text-zinc-500">
+                    Client: <span className="text-zinc-300">{currentProject.client}</span>
+                  </p>
+                )}
+
+                {/* Narrative Description */}
+                <p className="text-zinc-300 text-sm sm:text-base leading-relaxed max-w-xl">
+                  {currentProject.description || currentProject.shortDescription}
                 </p>
-                
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {(project.tech || []).map((tag: string, i: number) => (
-                    <span key={i} className="px-3 py-1 rounded-md bg-secondary text-secondary-foreground text-xs font-medium">
+              </div>
+
+              {/* Tech Stack Pills */}
+              {currentProject.tech && currentProject.tech.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {currentProject.tech.map((tag: string, tIdx: number) => (
+                    <span
+                      key={tIdx}
+                      className="px-3 py-1 rounded-md text-xs font-mono text-zinc-300 bg-zinc-900 border border-zinc-800"
+                    >
                       {tag}
                     </span>
                   ))}
                 </div>
-                
-                <Link href={`/projects/${project.slug}`} className="mt-4 inline-flex items-center text-primary font-medium hover:underline underline-offset-4">
-                  View Project
-                  <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14"></path>
-                    <path d="m12 5 7 7-7 7"></path>
-                  </svg>
+              )}
+
+              {/* Action Buttons (Non-pill shaped, strictly rounded-lg) */}
+              <div className="flex flex-wrap items-center gap-4 pt-4">
+                <Link
+                  href={`/projects/${currentProject.slug}`}
+                  className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-xs uppercase tracking-wider transition-colors"
+                >
+                  <span>View Case Study</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
+
+                {currentProject.url && (
+                  <a
+                    href={currentProject.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 text-emerald-400 border border-zinc-800 hover:border-emerald-500/30 font-medium text-xs transition-colors"
+                  >
+                    <span>Visit Live Site</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                )}
+
+                <a
+                  href="#contact"
+                  className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-zinc-900 hover:bg-zinc-850 text-zinc-300 border border-zinc-800 font-medium text-xs transition-colors"
+                >
+                  <span>Request Similar Build</span>
+                </a>
               </div>
-              
-              <div className="order-1 md:order-2 relative aspect-[4/3] w-full rounded-2xl overflow-hidden border border-border/50 group-hover:border-primary/30 transition-colors">
-                <div className="absolute inset-0 bg-secondary flex items-center justify-center">
-                  <span className="text-muted-foreground font-mono">Project Image Placeholder</span>
+            </div>
+
+            {/* Right Showcase Preview Frame (5 cols) */}
+            <div className="lg:col-span-5 relative">
+              <div className="relative aspect-[16/11] w-full rounded-xl bg-zinc-900/90 border border-zinc-800 p-6 flex flex-col justify-between overflow-hidden group">
+                
+                {/* Visual Glass Accents */}
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-black pointer-events-none" />
+                
+                {/* Background Image if available */}
+                {currentProject.imageUrl && (
+                  <div className="absolute inset-0 z-0">
+                    <img
+                      src={currentProject.imageUrl}
+                      alt={currentProject.name}
+                      className="w-full h-full object-cover opacity-35 group-hover:opacity-55 group-hover:scale-105 transition-all duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between z-10">
+                  <div className="flex items-center space-x-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+                  </div>
+                  <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest bg-black/60 px-2 py-0.5 rounded border border-zinc-800">
+                    SYSTEM SPEC // {currentProject.slug}
+                  </span>
+                </div>
+
+                {/* Center Visual Element */}
+                <div className="my-auto py-8 text-center z-10 flex flex-col items-center">
+                  <div className="w-14 h-14 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-3 shadow-inner">
+                    <Layers className="w-7 h-7 text-emerald-400" />
+                  </div>
+                  <h4 className="text-white font-bold text-base tracking-wide">
+                    {currentProject.name}
+                  </h4>
+                  <span className="text-zinc-400 text-xs font-mono mt-1">
+                    {currentProject.category}
+                  </span>
+                </div>
+
+                {/* Bottom Spec Footer */}
+                <div className="flex items-center justify-between z-10 text-[11px] font-mono text-zinc-400 border-t border-zinc-800/80 pt-3 bg-black/40 px-2 -mx-2 -mb-2 rounded-b">
+                  <span>STATUS: {currentProject.status}</span>
+                  <span className="text-emerald-400 font-bold">VERIFIED DELIVERABLE</span>
                 </div>
               </div>
             </div>
-          ))}
+
+          </div>
+
+          {/* Dot Pagination for Looping Slideshow */}
+          {total > 1 && (
+            <div className="flex items-center justify-center space-x-2.5 mt-8 pt-6 border-t border-zinc-900">
+              {projects.map((_, dotIdx) => (
+                <button
+                  key={dotIdx}
+                  onClick={() => goToSlide(dotIdx)}
+                  aria-label={`Go to slide ${dotIdx + 1}`}
+                  className={`h-2 rounded-md transition-all duration-300 ${
+                    dotIdx === currentIndex
+                      ? 'w-8 bg-emerald-400'
+                      : 'w-2 bg-zinc-800 hover:bg-zinc-700'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+
         </div>
+
       </div>
     </section>
   );

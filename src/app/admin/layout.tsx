@@ -55,8 +55,11 @@ export default function AdminLayout({
         {/* Admin Sidebar */}
         <aside className="w-64 border-r border-zinc-800 bg-zinc-950 flex flex-col shrink-0 hidden md:flex">
           <div className="p-5 border-b border-zinc-800 flex items-center justify-between">
-            <Link href="/admin" className="text-base font-black tracking-wider text-white uppercase">
-              ŪRDHV <span className="text-amber-400">CONTROL</span>
+            <Link href="/admin" className="flex items-center gap-2.5">
+              <img src="/logo.png" alt="Ūrdhv Ascens" className="h-6 w-auto object-contain" />
+              <span className="text-base font-black tracking-wider text-white uppercase">
+                ŪRDHV <span className="text-emerald-400">CONTROL</span>
+              </span>
             </Link>
             <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-zinc-900 border border-zinc-800 text-zinc-400">
               v2.0
@@ -71,9 +74,9 @@ export default function AdminLayout({
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+                  className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
                     isActive
-                      ? "bg-amber-500/15 text-amber-300 border border-amber-500/30"
+                      ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
                       : "text-zinc-400 hover:text-white hover:bg-zinc-900"
                   }`}
                 >
@@ -96,14 +99,14 @@ export default function AdminLayout({
               href="https://urdhvascens.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between px-3 py-2 text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-xl transition-colors"
+              className="flex items-center justify-between px-3 py-2 text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-900 rounded-lg transition-colors"
             >
               <span>View Live Website</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
             <button
               onClick={handleSignOut}
-              className="flex items-center space-x-2 w-full px-3 py-2 bg-red-500/10 text-red-400 rounded-xl font-medium text-xs hover:bg-red-500/20 transition-colors text-left"
+              className="flex items-center space-x-2 w-full px-3 py-2 bg-red-500/10 text-red-400 rounded-lg font-medium text-xs hover:bg-red-500/20 transition-colors text-left"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Sign Out</span>
@@ -117,7 +120,7 @@ export default function AdminLayout({
             <div className="flex items-center space-x-3">
               <span className="text-xs font-mono text-zinc-400">HOSTINGER CONTROL CENTER</span>
               <span className="text-zinc-700">•</span>
-              <span className="text-xs font-medium text-amber-400">Live API Dynamic Sync</span>
+              <span className="text-xs font-medium text-emerald-400">Live API Dynamic Sync</span>
             </div>
             <div className="flex items-center gap-3">
               <span className="text-xs text-zinc-400 font-mono hidden sm:inline">admin@urdhvascens.com</span>

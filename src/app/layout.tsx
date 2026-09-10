@@ -13,8 +13,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ūrdhv Ascens",
-  description: "Bespoke Digital Solutions.",
+  title: "Ūrdhv Ascens — Designed to Distinguish",
+  description: "Bespoke Digital Solutions, Aesthetics & Functionality Hub.",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-icon.png' },
+    ],
+  },
 };
 
 export default function RootLayout({

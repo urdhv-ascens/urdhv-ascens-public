@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Save, Loader2 } from 'lucide-react';
 import contentData from "@/data/content.json";
-import { db } from '@/core/firebase/config';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { getLiveContent, updateContent } from '@/lib/api-client';
 
 export default function SiteSettings() {
   const [data, setData] = useState<any>(contentData);
@@ -14,11 +13,9 @@ export default function SiteSettings() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const docRef = doc(db, 'config', 'siteSettings');
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          // Merge with static data in case there are missing fields
-          setData({ ...contentData, ...docSnap.data() } as any);
+        const content = await getLiveContent();
+        if (content) {
+          setData({ ...contentData, ...content } as any);
         }
       } catch (err) {
         console.error("Failed to fetch live settings:", err);
@@ -33,12 +30,11 @@ export default function SiteSettings() {
     e.preventDefault();
     setIsSaving(true);
     try {
-      // Use merge: true so we don't overwrite projects or services if we are only saving settings
-      await setDoc(doc(db, 'config', 'siteSettings'), data, { merge: true });
-      alert("Settings saved to Firestore successfully! Click 'Publish' in the header to push these changes to the live site.");
+      await updateContent(data);
+      alert("Settings saved successfully to Hostinger Control Center!");
     } catch (err) {
       console.error(err);
-      alert("Failed to save settings. Please verify your Firebase credentials.");
+      alert("Failed to save settings.");
     } finally {
       setIsSaving(false);
     }
@@ -57,10 +53,11 @@ export default function SiteSettings() {
         </div>
         <button 
           onClick={handleSave}
-          className="flex items-center gap-2 px-6 py-2 bg-primary text-primary-foreground font-medium rounded-md hover:bg-primary/90 transition-colors"
+          disabled={isSaving}
+          className="flex items-center gap-2 px-6 py-2.5 bg-emerald-400 text-black font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-emerald-300 transition-colors disabled:opacity-50"
         >
-          <Save size={18} />
-          Save & Publish
+          {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
+          <span>{isSaving ? "Saving..." : "Save & Publish"}</span>
         </button>
       </div>
 
@@ -82,22 +79,22 @@ export default function SiteSettings() {
 
         {/* Hero Section */}
         <section className="bg-card border border-border rounded-xl p-6 flex flex-col gap-6">
-          <h3 className="text-xl font-semibold border-b border-border pb-4">Hero Section</h3>
+          <h3 className="text-xl font-semibold border-b border-border pb-4">Hero Section & Background</h3>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Tagline</label>
               <input 
                 type="text" 
-                value={data.hero.tagline} 
+                value={data.hero?.tagline || ''} 
                 onChange={e => setData({...data, hero: {...data.hero, tagline: e.target.value}})}
-                className="px-4 py-2 bg-background border border-border rounded-lg" 
+                className="px-4 py-2 bg-background border border-border rounded-lg text-sm" 
               />
             </div>
             <div className="flex flex-col gap-2 md:col-span-2">
               <label className="text-sm font-medium">Main Title (H1)</label>
               <input 
                 type="text" 
-                value={data.hero.title} 
+                value={data.hero?.title || ''} 
                 onChange={e => setData({...data, hero: {...data.hero, title: e.target.value}})}
                 className="px-4 py-2 bg-background border border-border rounded-lg text-lg font-bold" 
               />
@@ -106,10 +103,74 @@ export default function SiteSettings() {
               <label className="text-sm font-medium">Description</label>
               <textarea 
                 rows={3}
-                value={data.hero.description} 
+                value={data.hero?.description || ''} 
                 onChange={e => setData({...data, hero: {...data.hero, description: e.target.value}})}
-                className="px-4 py-2 bg-background border border-border rounded-lg" 
+                className="px-4 py-2 bg-background border border-border rounded-lg text-sm" 
               />
+            </div>
+
+            {/* Hero Background Image Settings */}
+            <div className="flex flex-col gap-2 md:col-span-2 pt-2 border-t border-border">
+              <label className="text-sm font-bold text-emerald-400 uppercase tracking-wider">
+                Hero Background Image (Blurred)
+              </label>
+              <div className="grid md:grid-cols-3 gap-4 mt-2">
+                <div className="flex flex-col gap-1.5 md:col-span-2">
+                  <span className="text-xs text-muted-foreground">Image URL or Local Asset Path</span>
+                  <input
+                    type="text"
+                    value={data.hero?.backgroundImage || '/assets/images/favicon.png'}
+                    onChange={e => setData({...data, hero: {...data.hero, backgroundImage: e.target.value}})}
+                    placeholder="/assets/images/favicon.png"
+                    className="px-4 py-2 bg-background border border-border rounded-lg font-mono text-xs"
+                  />
+                  <p className="text-[11px] text-zinc-500 mt-1">
+                    Default: <code className="text-emerald-400 font-mono">/assets/images/favicon.png</code>. You can paste any media URL or uploaded image path.
+                  </p>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-xs text-muted-foreground">
+                    Blur Intensity: {data.hero?.backgroundBlur ?? 32}px
+                  </span>
+                  <input
+                    type="range"
+                    min="4"
+                    max="64"
+                    step="4"
+                    value={data.hero?.backgroundBlur ?? 32}
+                    onChange={e => setData({...data, hero: {...data.hero, backgroundBlur: Number(e.target.value)}})}
+                    className="w-full accent-emerald-400"
+                  />
+                  <span className="text-xs text-muted-foreground mt-2">
+                    Opacity: {data.hero?.backgroundOpacity ?? 20}%
+                  </span>
+                  <input
+                    type="range"
+                    min="5"
+                    max="60"
+                    step="5"
+                    value={data.hero?.backgroundOpacity ?? 20}
+                    onChange={e => setData({...data, hero: {...data.hero, backgroundOpacity: Number(e.target.value)}})}
+                    className="w-full accent-emerald-400"
+                  />
+                </div>
+              </div>
+
+              {/* Background Preview */}
+              <div className="mt-4 p-4 rounded-xl bg-black border border-zinc-800 flex items-center justify-center relative overflow-hidden h-36">
+                <div
+                  className="w-24 h-24 bg-contain bg-center bg-no-repeat transition-all"
+                  style={{
+                    backgroundImage: `url('${data.hero?.backgroundImage || '/assets/images/favicon.png'}')`,
+                    filter: `blur(${data.hero?.backgroundBlur ?? 32}px)`,
+                    opacity: (data.hero?.backgroundOpacity ?? 20) / 100,
+                  }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center text-xs font-mono text-zinc-400 pointer-events-none">
+                  Live Hero Background Preview ({data.hero?.backgroundBlur ?? 32}px blur - {data.hero?.backgroundOpacity ?? 20}% opacity)
+                </div>
+              </div>
             </div>
           </div>
         </section>

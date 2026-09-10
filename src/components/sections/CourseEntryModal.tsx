@@ -48,11 +48,9 @@ export function CourseEntryModal({
       });
 
       if (res.success && res.readerId) {
-        // Save reader session locally
         localStorage.setItem('urdhv_reader_id', res.readerId);
         localStorage.setItem('urdhv_reader_name', name);
 
-        // Determine Viewer target URL (Spec §6.2)
         const viewerBase = process.env.NEXT_PUBLIC_VIEWER_URL || 'https://viewer.urdhvascens.com';
         const targetUrl = `${viewerBase}?course=${courseSelected}`;
         window.location.href = targetUrl;
@@ -60,7 +58,6 @@ export function CourseEntryModal({
         setError(res.message || 'Registration failed. Please try again.');
       }
     } catch (err: any) {
-      // If Hostinger API is offline in local dev, allow direct entrance
       console.warn('Reader registration fallback:', err);
       const viewerBase = process.env.NEXT_PUBLIC_VIEWER_URL || 'https://viewer.urdhvascens.com';
       window.location.href = `${viewerBase}?course=${courseSelected}`;
@@ -70,25 +67,23 @@ export function CourseEntryModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
       <div 
-        className="relative w-full max-w-lg bg-zinc-950 border border-zinc-800 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden"
+        className="relative w-full max-w-lg bg-zinc-950 border border-zinc-800 rounded-2xl p-6 sm:p-8 shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Subtle decorative glow */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Close Button */}
+        {/* Close Button (non-pill, rounded-lg) */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
+          className="absolute top-5 right-5 p-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
         >
           <X className="w-4 h-4" />
         </button>
 
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-semibold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-semibold uppercase tracking-wider mb-3">
             <Sparkles className="w-3 h-3" />
             <span>100% Free Course Access</span>
           </div>
@@ -101,7 +96,7 @@ export function CourseEntryModal({
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-xs text-red-400">
+          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-xs text-red-400">
             {error}
           </div>
         )}
@@ -115,15 +110,15 @@ export function CourseEntryModal({
                 setCourseSelected('students-ai');
                 if (role === 'Educator') setRole('Student');
               }}
-              className={`p-3 rounded-2xl border text-left transition-all flex flex-col justify-between ${
+              className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
                 courseSelected === 'students-ai'
-                  ? 'bg-amber-500/15 border-amber-500/40 text-white shadow-md shadow-amber-500/5'
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-white'
                   : 'bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:border-zinc-700'
               }`}
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-bold text-white">Students AI Series</span>
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
               </div>
               <span className="text-[11px] text-zinc-400">6 Visual Booklets</span>
             </button>
@@ -134,15 +129,15 @@ export function CourseEntryModal({
                 setCourseSelected('teachers-ai');
                 if (role === 'Student') setRole('Educator');
               }}
-              className={`p-3 rounded-2xl border text-left transition-all flex flex-col justify-between ${
+              className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
                 courseSelected === 'teachers-ai'
-                  ? 'bg-amber-500/15 border-amber-500/40 text-white shadow-md shadow-amber-500/5'
+                  ? 'bg-emerald-500/15 border-emerald-500/40 text-white'
                   : 'bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:border-zinc-700'
               }`}
             >
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs font-bold text-white">Teachers AI Toolkit</span>
-                <GraduationCap className="w-3.5 h-3.5 text-amber-400" />
+                <GraduationCap className="w-3.5 h-3.5 text-emerald-400" />
               </div>
               <span className="text-[11px] text-zinc-400">6 Visual Booklets</span>
             </button>
@@ -158,7 +153,7 @@ export function CourseEntryModal({
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="e.g. Aryan Sharma"
-                className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500"
+                className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
               />
             </div>
 
@@ -171,7 +166,7 @@ export function CourseEntryModal({
                   value={contact}
                   onChange={e => setContact(e.target.value)}
                   placeholder="aryan@example.com"
-                  className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500"
+                  className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
@@ -180,7 +175,7 @@ export function CourseEntryModal({
                 <select
                   value={role}
                   onChange={e => setRole(e.target.value)}
-                  className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none focus:border-amber-500"
+                  className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white focus:outline-none focus:border-emerald-500"
                 >
                   <option value="Student">Student</option>
                   <option value="Educator">Educator / Teacher</option>
@@ -199,12 +194,12 @@ export function CourseEntryModal({
                 value={institution}
                 onChange={e => setInstitution(e.target.value)}
                 placeholder="e.g. Delhi Public School / University of Rajasthan"
-                className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-amber-500"
+                className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-emerald-500"
               />
             </div>
           </div>
 
-          {/* Privacy Consent Checkbox (Spec §6.3 / C-11) */}
+          {/* Privacy Consent Checkbox */}
           <div className="pt-2">
             <label className="flex items-start space-x-2.5 cursor-pointer text-zinc-400 hover:text-zinc-300 text-xs leading-relaxed">
               <input
@@ -212,19 +207,19 @@ export function CourseEntryModal({
                 required
                 checked={consentGiven}
                 onChange={e => setConsentGiven(e.target.checked)}
-                className="mt-0.5 rounded bg-zinc-900 border-zinc-700 text-amber-500 focus:ring-amber-500"
+                className="mt-0.5 rounded bg-zinc-900 border-zinc-700 text-emerald-500 focus:ring-emerald-500"
               />
               <span>
-                I agree to the <a href="/privacy" target="_blank" className="text-amber-400 hover:underline">Privacy Policy</a> and consent to educational progress logging. No spam, ever.
+                I agree to the <a href="/privacy" target="_blank" className="text-emerald-400 hover:underline">Privacy Policy</a> and consent to educational progress logging. No spam, ever.
               </span>
             </label>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit Button (non-pill, rounded-lg) */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-xl shadow-amber-500/10 disabled:opacity-50 flex items-center justify-center space-x-2"
+            className="w-full py-3 px-4 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-xs uppercase tracking-wider transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
           >
             {loading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
