@@ -54,7 +54,7 @@ export function Navigation() {
           ))}
 
           <a
-            href="https://viewer.urdhvascens.com"
+            href="https://urdhv-viewer.pages.dev"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 text-xs font-semibold uppercase tracking-wider transition-all"
@@ -95,7 +95,7 @@ export function Navigation() {
             </Link>
           ))}
           <a
-            href="https://viewer.urdhvascens.com"
+            href="https://urdhv-viewer.pages.dev"
             className="text-sm font-semibold uppercase tracking-wider py-2 text-emerald-400 flex items-center space-x-2"
             onClick={() => setMobileMenuOpen(false)}
           >

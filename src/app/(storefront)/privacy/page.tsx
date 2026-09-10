@@ -35,7 +35,7 @@ export default function PrivacyPolicyPage() {
           <section className="space-y-2">
             <h2 className="text-lg font-bold text-white">1. Scope and Commitment</h2>
             <p>
-              This Privacy Policy explains how Ūrdhv Ascens ("we", "us", "our") collects, uses, and safeguards information when you visit our website (urdhvascens.com) or access our free educational course booklets through the Ūrdhv Ascens Viewer platform.
+              This Privacy Policy explains how Ūrdhv Ascens ("we", "us", "our") collects, uses, and safeguards information when you visit our website or access our free educational course booklets through the Ūrdhv Ascens Viewer platform.
             </p>
           </section>
 

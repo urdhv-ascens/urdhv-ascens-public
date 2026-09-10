@@ -51,7 +51,7 @@ export function CourseEntryModal({
         localStorage.setItem('urdhv_reader_id', res.readerId);
         localStorage.setItem('urdhv_reader_name', name);
 
-        const viewerBase = process.env.NEXT_PUBLIC_VIEWER_URL || 'https://viewer.urdhvascens.com';
+        const viewerBase = process.env.NEXT_PUBLIC_VIEWER_URL || 'https://urdhv-viewer.pages.dev';
         const targetUrl = `${viewerBase}?course=${courseSelected}`;
         window.location.href = targetUrl;
       } else {
@@ -59,7 +59,7 @@ export function CourseEntryModal({
       }
     } catch (err: any) {
       console.warn('Reader registration fallback:', err);
-      const viewerBase = process.env.NEXT_PUBLIC_VIEWER_URL || 'https://viewer.urdhvascens.com';
+      const viewerBase = process.env.NEXT_PUBLIC_VIEWER_URL || 'https://urdhv-viewer.pages.dev';
       window.location.href = `${viewerBase}?course=${courseSelected}`;
     } finally {
       setLoading(false);

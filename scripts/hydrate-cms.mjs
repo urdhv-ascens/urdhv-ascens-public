@@ -11,7 +11,7 @@ const contentPath = path.join(__dirname, '..', 'src', 'data', 'content.json');
 
 const HOSTINGER_API = process.env.NEXT_PUBLIC_API_URL 
   ? `${process.env.NEXT_PUBLIC_API_URL}/content.php`
-  : 'https://urdhvascens.com/api/content.php';
+  : 'https://gold-cat-133405.hostingersite.com/api/content.php';
 
 async function hydrate() {
   console.log('🔄 Initiating Ūrdhv Ascens CMS Data Hydration...');

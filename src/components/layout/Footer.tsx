@@ -35,9 +35,9 @@ export function Footer() {
           
           <div className="flex flex-col gap-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">Curriculum</h4>
-            <a href="https://viewer.urdhvascens.com?course=students-ai" target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Students AI Track</a>
-            <a href="https://viewer.urdhvascens.com?course=teachers-ai" target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Teachers AI Toolkit</a>
-            <a href="https://viewer.urdhvascens.com" target="_blank" rel="noopener noreferrer" className="text-xs text-zinc-400 hover:text-white transition-colors">Booklet Library</a>
+            <a href="https://urdhv-viewer.pages.dev?course=students-ai" target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Students AI Track</a>
+            <a href="https://urdhv-viewer.pages.dev?course=teachers-ai" target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors">Teachers AI Toolkit</a>
+            <a href="https://urdhv-viewer.pages.dev" target="_blank" rel="noopener noreferrer" className="text-xs text-zinc-400 hover:text-white transition-colors">Booklet Library</a>
           </div>
 
           <div className="flex flex-col gap-3">
