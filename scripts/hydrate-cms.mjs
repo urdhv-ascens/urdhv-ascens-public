@@ -16,29 +16,59 @@ const HOSTINGER_API = process.env.NEXT_PUBLIC_API_URL
 async function hydrate() {
   console.log('🔄 Initiating Ūrdhv Ascens CMS Data Hydration...');
 
-  // 1. Primary Source: Hostinger Content API (Spec §3.1)
+  let localContent = {};
+  try {
+    const raw = await fs.readFile(contentPath, 'utf8');
+    localContent = JSON.parse(raw);
+  } catch (err) {
+    console.warn('⚠️ Could not read local content.json:', err.message);
+  }
+
+  // 1. Fetch Remote Updates from Hostinger
   try {
     console.log(`📡 Checking Hostinger Control Center API (${HOSTINGER_API})...`);
     const res = await fetch(HOSTINGER_API, {
       headers: { 'Accept': 'application/json' },
-      signal: AbortSignal.timeout(5000)
+      signal: AbortSignal.timeout(6000)
     });
 
     if (res.ok) {
-      const data = await res.json();
-      if (data && typeof data === 'object' && !data.error && data.hero) {
-        // Sanitize legacy PNG image references to WebP
-        let rawStr = JSON.stringify(data);
-        rawStr = rawStr.replace(/about-graphic\.(png|webp)/gi, 'About-Us.webp');
-        rawStr = rawStr.replace(/about-us\.png/gi, 'About-Us.webp');
-        rawStr = rawStr.replace(/about-us\.webp/gi, 'About-Us.webp');
-        rawStr = rawStr.replace(/\.png/gi, '.webp');
-        const sanitized = JSON.parse(rawStr);
-        if (sanitized.about) {
-          sanitized.about.imageUrl = '/assets/images/About-Us.webp';
-        }
-        await fs.writeFile(contentPath, JSON.stringify(sanitized, null, 2), 'utf8');
-        console.log('✅ Successfully hydrated content.json from Hostinger Control Center (sanitized to WebP)!');
+      const remoteData = await res.json();
+      if (remoteData && typeof remoteData === 'object' && !remoteData.error && remoteData.hero) {
+        // Intelligently merge: Preserve local assets, webp image paths, and git-committed data
+        const merged = {
+          ...localContent,
+          ...remoteData,
+          siteSettings: { ...(localContent.siteSettings || {}), ...(remoteData.siteSettings || {}) },
+          about: {
+            ...(localContent.about || {}),
+            ...(remoteData.about || {}),
+            imageUrl: localContent.about?.imageUrl || '/assets/images/About-Us.webp'
+          },
+          // For projectsList, merge item by item, preserving local imageUrl and descriptions if remote has empty string
+          projectsList: (localContent.projectsList || []).map((localProj) => {
+            const remoteProj = Array.isArray(remoteData.projectsList)
+              ? remoteData.projectsList.find((p) => p.id === localProj.id || p.slug === localProj.slug)
+              : null;
+            if (!remoteProj) return localProj;
+            return {
+              ...localProj,
+              ...remoteProj,
+              // Never overwrite local imageUrl if remote is empty
+              imageUrl: remoteProj.imageUrl && remoteProj.imageUrl.trim() !== '' ? remoteProj.imageUrl : localProj.imageUrl,
+              // Never downgrade Enhance Doorstep description if remote is stale
+              description: localProj.slug === 'enhance-doorstep' && !remoteProj.description?.includes('salon')
+                ? localProj.description
+                : (remoteProj.description || localProj.description),
+              category: localProj.slug === 'enhance-doorstep' && !remoteProj.category?.includes('Salon')
+                ? localProj.category
+                : (remoteProj.category || localProj.category)
+            };
+          })
+        };
+
+        await fs.writeFile(contentPath, JSON.stringify(merged, null, 2), 'utf8');
+        console.log('✅ Successfully hydrated and merged content.json (local assets preserved)!');
         return;
       }
     }
@@ -47,15 +77,9 @@ async function hydrate() {
   }
 
   // 2. Secondary Source: Local bundled content.json verification
-  try {
-    const localContent = await fs.readFile(contentPath, 'utf8');
-    const parsed = JSON.parse(localContent);
-    if (parsed && parsed.hero) {
-      console.log('✅ Using bundled local content.json (Build will proceed reliably).');
-      return;
-    }
-  } catch (err) {
-    console.warn('⚠️ Local content.json not found or invalid:', err.message);
+  if (localContent && localContent.hero) {
+    console.log('✅ Using bundled local content.json (Build will proceed reliably).');
+    return;
   }
 
   console.log('ℹ️ Proceeding with static defaults.');

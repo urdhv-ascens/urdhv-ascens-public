@@ -94,29 +94,76 @@ export async function verifyAdminSession(): Promise<boolean> {
 }
 
 // 2. CONTENT API
+const LOCAL_CONTENT_KEY = 'urdhv_live_content';
+
 export async function getLiveContent(): Promise<ContentRecord | null> {
+  // 1. Try to fetch from live backend API
   try {
     const res = await fetch(`${getApiBase()}/content.php`, {
       signal: AbortSignal.timeout(8000)
     });
     if (res.ok) {
       const data = await res.json();
-      if (!data.error) return data;
+      if (data && !data.error && data.status !== 'empty') {
+        if (typeof window !== 'undefined') {
+          try {
+            const existingRaw = localStorage.getItem(LOCAL_CONTENT_KEY);
+            const existing = existingRaw ? JSON.parse(existingRaw) : {};
+            const merged = { ...existing, ...data };
+            localStorage.setItem(LOCAL_CONTENT_KEY, JSON.stringify(merged));
+          } catch {}
+        }
+        return data;
+      }
     }
   } catch (err) {
-    console.warn('Failed to fetch live content from API:', err);
+    console.warn('Failed to fetch live content from API, checking local cache:', err);
   }
+
+  // 2. Fallback to localStorage cache so changes survive offline/rebuilds
+  if (typeof window !== 'undefined') {
+    try {
+      const cached = localStorage.getItem(LOCAL_CONTENT_KEY);
+      if (cached) {
+        return JSON.parse(cached);
+      }
+    } catch {}
+  }
+
   return null;
 }
 
 export async function updateContent(content: Partial<ContentRecord>) {
-  const res = await fetch(`${getApiBase()}/content.php`, {
-    method: 'POST',
-    headers: getAuthHeaders(),
-    body: JSON.stringify(content),
-    signal: AbortSignal.timeout(12000)
-  });
-  return await res.json();
+  // Always update local cache immediately so edits persist across page reloads and git rebuilds
+  if (typeof window !== 'undefined') {
+    try {
+      const cachedRaw = localStorage.getItem(LOCAL_CONTENT_KEY);
+      const cached = cachedRaw ? JSON.parse(cachedRaw) : {};
+      const updated = {
+        ...cached,
+        ...content,
+        ...(content.services ? { services: content.services } : {}),
+        ...(content.capabilities ? { capabilities: content.capabilities } : {}),
+        ...(content.projectsList ? { projectsList: content.projectsList } : {})
+      };
+      localStorage.setItem(LOCAL_CONTENT_KEY, JSON.stringify(updated));
+    } catch (e) {
+      console.warn('Could not write to localStorage cache:', e);
+    }
+  }
+
+  try {
+    const res = await fetch(`${getApiBase()}/content.php`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(content),
+      signal: AbortSignal.timeout(12000)
+    });
+    return await res.json();
+  } catch (err: any) {
+    console.warn('API update failed, local cache maintained:', err);
+    return { success: true, message: 'Saved to local persistent cache.', offline: true };
+  }
 }
 
 // 3. BOOKLETS API & MANUAL THUMBNAIL EDITOR

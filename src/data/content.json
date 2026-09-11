@@ -287,7 +287,7 @@
       "client": "Star Excellent Trust",
       "year": "2026",
       "url": "https://starexcellent.in/",
-      "imageUrl": "",
+      "imageUrl": "/assets/images/projects/star-excellent-academy.webp",
       "tech": [
         "Web Architecture",
         "PDF & Graphic Design",
@@ -308,7 +308,7 @@
       "client": "Omkara Enterprises",
       "year": "2026",
       "url": "https://omkara-store.pages.dev/",
-      "imageUrl": "",
+      "imageUrl": "/assets/images/projects/omkara-store.webp",
       "tech": [
         "E-Commerce",
         "PDF & Graphic Design",
@@ -323,13 +323,13 @@
       "id": "3",
       "slug": "enhance-doorstep",
       "name": "Enhance Doorstep",
-      "category": "Doorstep Services & Web Flagship",
+      "category": "Home Beauty Salon & Self-Care Services",
       "status": "ACTIVE",
       "displayOrder": 3,
       "client": "Enhance Doorstep",
       "year": "2026",
       "url": "https://enhance-doorstep.github.io/Enhance-Doorstep/",
-      "imageUrl": "",
+      "imageUrl": "/assets/images/projects/enhance-doorstep.webp",
       "tech": [
         "Web Architecture",
         "PDF & Graphic Design",
@@ -337,7 +337,7 @@
         "GitHub Pages"
       ],
       "shortDescription": "Modern doorstep service flagship website, service rate cards & marketing PDF graphic designs, and active social media management.",
-      "description": "A dedicated service flagship and digital operations platform for Enhance Doorstep — featuring streamlined customer inquiries, branded PDF service guides & promotional graphic designs, and multi-channel social media management.",
+      "description": "A luxury home beauty salon and doorstep self-care service platform — featuring bespoke aesthetic treatments at home, curated beauty routines, and brand identity expressed in black, golden, and Indian line abstract art design.",
       "lastUpdated": "2026-09-10"
     },
     {
@@ -350,7 +350,7 @@
       "client": "Ūrdhv Ascens Educational Network",
       "year": "2026",
       "url": "https://urdhv-viewer.pages.dev/",
-      "imageUrl": "",
+      "imageUrl": "/assets/images/projects/urdhv-ai-courses.webp",
       "tech": [
         "AI Courses",
         "HTML5 Canvas",

@@ -68,17 +68,7 @@ export function Navigation() {
             </Link>
           ))}
 
-          {courseBtn?.text && (
-            <a
-              href={courseBtn.href || viewerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 text-xs font-semibold uppercase tracking-wider transition-all"
-            >
-              <Sparkles className="w-3 h-3" />
-              <span>{courseBtn.text}</span>
-            </a>
-          )}
+
 
           {ctaBtn?.text && (
             <Link
@@ -113,18 +103,7 @@ export function Navigation() {
               {link.label}
             </Link>
           ))}
-          {courseBtn?.text && (
-            <a
-              href={courseBtn.href || viewerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-semibold uppercase tracking-wider py-2 text-emerald-400 flex items-center space-x-2"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <Sparkles className="w-4 h-4" />
-              <span>{courseBtn.text}</span>
-            </a>
-          )}
+
           {ctaBtn?.text && (
             <Link
               href={ctaBtn.href || '/#contact'}

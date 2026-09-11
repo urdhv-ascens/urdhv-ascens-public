@@ -280,15 +280,8 @@ export function Capabilities({
     return () => document.removeEventListener('visibilitychange', handleVisibility);
   }, []);
 
-  const handleCardClick = (item: CapabilityCardItem) => {
-    if (item.category?.includes('Intelligence') || item.title?.includes('AI')) {
-      onOpenCourseModal?.();
-    } else {
-      const contactSec = document.getElementById('contact');
-      if (contactSec) {
-        contactSec.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+  const handleCardClick = (_item: CapabilityCardItem) => {
+    window.open('https://wa.me/917891085020', '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -296,9 +289,7 @@ export function Capabilities({
       id="capabilities" 
       className="relative w-full py-20 md:py-28 bg-black overflow-hidden border-b border-zinc-900 scroll-mt-24 md:scroll-mt-28"
     >
-      {/* Edge gradient masks for seamless aesthetic */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 bg-gradient-to-r from-black to-transparent z-20" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-32 bg-gradient-to-l from-black to-transparent z-20" />
+
 
       {/* Section Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
