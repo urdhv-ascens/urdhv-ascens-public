@@ -105,10 +105,11 @@ export function CMSContentProvider({ children }: { children: React.ReactNode }) 
         } as ContentRecord;
 
         // Persist projectsList from API if available
-        if (Array.isArray(live.projectsList) && live.projectsList.length > 0) {
+        if (Array.isArray(live.projectsList)) {
           (merged as any).projectsList = live.projectsList;
         }
 
+        console.log('[CMSContentContext] Live content successfully loaded and applied from Hostinger.');
         setContent(merged);
         // Cache to localStorage so changes survive git-triggered rebuilds
         setCachedContent(merged);

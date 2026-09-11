@@ -130,25 +130,18 @@ export async function verifyAdminSession(): Promise<boolean> {
 const LOCAL_CONTENT_KEY = 'urdhv_live_content';
 
 export async function getLiveContent(): Promise<ContentRecord | null> {
-  // 1. Try to fetch from live backend API with cache busting
+  // 1. Try to fetch from live backend API with cache busting (zero CORS preflight headers)
   try {
     const res = await fetch(`${getApiBase()}/content.php?t=${Date.now()}`, {
       cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache'
-      },
-      signal: AbortSignal.timeout(8000)
+      signal: AbortSignal.timeout(15000)
     });
     if (res.ok) {
       const data = await res.json();
       if (data && !data.error && data.status !== 'empty') {
         if (typeof window !== 'undefined') {
           try {
-            const existingRaw = localStorage.getItem(LOCAL_CONTENT_KEY);
-            const existing = existingRaw ? JSON.parse(existingRaw) : {};
-            const merged = { ...existing, ...data };
-            localStorage.setItem(LOCAL_CONTENT_KEY, JSON.stringify(merged));
+            localStorage.setItem(LOCAL_CONTENT_KEY, JSON.stringify(data));
           } catch {}
         }
         return data;
@@ -209,8 +202,8 @@ export async function updateContent(content: Partial<ContentRecord>) {
     const data = await res.json();
     return data;
   } catch (err: any) {
-    console.warn('API update failed, local cache maintained:', err);
-    return { success: true, message: 'Saved to local persistent cache.', offline: true };
+    console.warn('API update failed:', err);
+    return { success: false, message: 'Server update failed: ' + (err?.message || 'Network error') };
   }
 }
 
@@ -224,8 +217,7 @@ export async function getBooklets(courseId?: string, category?: string): Promise
   try {
     const res = await fetch(`${getApiBase()}/booklets.php?${params.toString()}`, {
       cache: 'no-store',
-      headers: getAuthHeaders(),
-      signal: AbortSignal.timeout(8000)
+      signal: AbortSignal.timeout(15000)
     });
     if (res.ok) {
       return await res.json();
@@ -279,8 +271,7 @@ export async function getCourses(): Promise<Course[]> {
   try {
     const res = await fetch(`${getApiBase()}/courses.php?t=${Date.now()}`, {
       cache: 'no-store',
-      headers: getAuthHeaders(),
-      signal: AbortSignal.timeout(8000)
+      signal: AbortSignal.timeout(15000)
     });
     if (res.ok) return await res.json();
   } catch (err) {
@@ -401,8 +392,7 @@ export async function getAds(): Promise<AdsConfig | null> {
   try {
     const res = await fetch(`${getApiBase()}/ads.php?t=${Date.now()}`, {
       cache: 'no-store',
-      headers: getAuthHeaders(),
-      signal: AbortSignal.timeout(8000)
+      signal: AbortSignal.timeout(15000)
     });
     if (res.ok) return await res.json();
   } catch (err) {

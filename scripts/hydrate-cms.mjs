@@ -29,7 +29,7 @@ async function hydrate() {
     console.log(`📡 Checking Hostinger Control Center API (${HOSTINGER_API})...`);
     const res = await fetch(HOSTINGER_API, {
       headers: { 'Accept': 'application/json' },
-      signal: AbortSignal.timeout(6000)
+      signal: AbortSignal.timeout(15000)
     });
 
     if (res.ok) {
