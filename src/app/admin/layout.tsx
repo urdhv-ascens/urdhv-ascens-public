@@ -29,10 +29,46 @@ export default function AdminLayout({
   const pathname = usePathname();
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<AdminUser | null>(null);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const host = window.location.hostname;
+      // If accessing from Cloudflare Pages (urdhvascens.pages.dev) or external public domain,
+      // strictly forbid admin access on pages.dev and redirect to dedicated Hostinger admin portal.
+      if (host.includes('pages.dev') || (!host.includes('hostingersite.com') && host !== 'localhost' && host !== '127.0.0.1')) {
+        setIsRedirecting(true);
+        window.location.replace('https://gold-cat-133405.hostingersite.com/admin/login/');
+        return;
+      }
+    }
     setCurrentUser(getAdminUser());
   }, [pathname]);
+
+  if (isRedirecting) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center p-6 text-center">
+        <div className="p-6 bg-zinc-950 border border-zinc-800 rounded-2xl max-w-md w-full shadow-2xl space-y-4">
+          <div className="w-12 h-12 mx-auto rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+            <ShieldCheck className="w-6 h-6" />
+          </div>
+          <div>
+            <h2 className="text-base font-bold text-white uppercase tracking-wider">Hostinger Control Plane Only</h2>
+            <p className="text-xs text-zinc-400 mt-2 leading-relaxed">
+              The Ūrdhv Ascens Admin Portal is exclusively hosted on Hostinger. Redirecting to official access portal...
+            </p>
+          </div>
+          <a
+            href="https://gold-cat-133405.hostingersite.com/admin/login/"
+            className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-xs uppercase tracking-wider rounded-lg transition-colors"
+          >
+            <span>Proceed to Admin Portal</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   const normalizedPath = pathname ? pathname.replace(/\/+$/, '') : '';
   if (normalizedPath === '/admin/login') {

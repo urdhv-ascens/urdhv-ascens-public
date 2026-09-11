@@ -1,0 +1,7 @@
+# ==============================================================================
+# Cloudflare Pages Redirects
+# Ensure https://urdhvascens.pages.dev/admin redirects to Hostinger admin portal
+# ==============================================================================
+
+/admin/*  https://gold-cat-133405.hostingersite.com/admin/:splat  301
+/admin    https://gold-cat-133405.hostingersite.com/admin/login/  301

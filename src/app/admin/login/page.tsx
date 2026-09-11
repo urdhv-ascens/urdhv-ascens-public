@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Lock, Shield, Key, UserCheck } from 'lucide-react';
 import { adminLogin } from '@/lib/api-client';
@@ -35,6 +35,15 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const host = window.location.hostname;
+      if (host.includes('pages.dev') || (!host.includes('hostingersite.com') && host !== 'localhost' && host !== '127.0.0.1')) {
+        window.location.replace('https://gold-cat-133405.hostingersite.com/admin/login/');
+      }
+    }
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -72,7 +72,7 @@ export function Footer() {
             <Link href="/privacy" className="text-xs text-zinc-400 hover:text-white transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="text-xs text-zinc-400 hover:text-white transition-colors">Terms of Service</Link>
             <Link href="/refund-policy" className="text-xs text-zinc-400 hover:text-white transition-colors">Cancellation & Refund</Link>
-            <Link href="/admin" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors font-mono">Control Plane</Link>
+            <a href="https://gold-cat-133405.hostingersite.com/admin/login/" target="_blank" rel="noopener noreferrer" className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors font-mono">Control Plane</a>
           </div>
 
           <div className="flex flex-col gap-3">
