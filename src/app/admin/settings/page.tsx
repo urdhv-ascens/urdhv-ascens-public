@@ -19,7 +19,7 @@ import {
   Send
 } from 'lucide-react';
 import contentData from "@/data/content.json";
-import { getLiveContent, updateContent } from '@/lib/api-client';
+import { getLiveContent, updateContent, publishSite } from '@/lib/api-client';
 import type { ContentRecord, LegalPageContent } from '@/core/types';
 
 type ActiveTab = 'brand' | 'hero' | 'about' | 'contact' | 'footer' | 'legal' | 'deploy';
@@ -64,12 +64,13 @@ export default function SiteSettings() {
     setSaveStatus(null);
     try {
       const res = await updateContent(data);
+      const pubRes = await publishSite(data.cloudflareWebhookUrl);
       if (res && res.success) {
-        setSaveStatus("Changes saved and published live to Hostinger storage!");
+        setSaveStatus(pubRes?.message || "Changes saved & published live across Hostinger & CDN!");
       } else {
-        setSaveStatus(res?.message || "Settings updated successfully!");
+        setSaveStatus(res?.message || pubRes?.message || "Settings updated successfully!");
       }
-      setTimeout(() => setSaveStatus(null), 4000);
+      setTimeout(() => setSaveStatus(null), 5000);
     } catch (err: any) {
       console.error(err);
       alert("Failed to save settings: " + (err?.message || "Network error"));
@@ -1224,10 +1225,10 @@ export default function SiteSettings() {
                 <button
                   type="button"
                   onClick={async () => {
-                    if (!confirm("Trigger Cloudflare Edge deployment rebuild now?")) return;
+                    if (!confirm("Trigger Cloudflare Edge deployment rebuild and cache flush now?")) return;
                     try {
-                      await fetch(data.cloudflareWebhookUrl!, { method: 'POST' });
-                      alert("Deployment webhook triggered successfully!");
+                      const res = await publishSite(data.cloudflareWebhookUrl);
+                      alert(res.message || "Deployment rebuild triggered successfully!");
                     } catch (err: any) {
                       alert("Failed to trigger webhook: " + err.message);
                     }
@@ -1235,7 +1236,7 @@ export default function SiteSettings() {
                   className="flex items-center gap-2 px-5 py-2 rounded-lg bg-zinc-900 border border-zinc-800 text-xs font-mono text-emerald-400 hover:bg-zinc-850 transition-colors"
                 >
                   <Send className="w-3.5 h-3.5" />
-                  <span>Trigger Cloudflare Edge Rebuild</span>
+                  <span>Trigger Cloudflare Edge Rebuild & Flush</span>
                 </button>
               </div>
             )}

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AdminAuthGuard } from "@/components/admin/AdminAuthGuard";
-import { adminLogout, getAdminUser, AdminUser } from "@/lib/api-client";
+import { adminLogout, getAdminUser, AdminUser, publishSite } from "@/lib/api-client";
 import { useState, useEffect } from "react";
 import {
   LayoutDashboard,
@@ -18,7 +18,10 @@ import {
   Settings,
   LogOut,
   ExternalLink,
-  ShieldCheck
+  ShieldCheck,
+  Send,
+  Loader2,
+  CheckCircle2
 } from "lucide-react";
 
 export default function AdminLayout({
@@ -30,6 +33,8 @@ export default function AdminLayout({
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<AdminUser | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [publishResult, setPublishResult] = useState<{ success: boolean; message: string } | null>(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -70,6 +75,11 @@ export default function AdminLayout({
     );
   }
 
+  if (typeof window !== 'undefined' && window.location.hostname.includes('pages.dev')) {
+    window.location.replace('/');
+    return null;
+  }
+
   const normalizedPath = pathname ? pathname.replace(/\/+$/, '') : '';
   if (normalizedPath === '/admin/login') {
     return <AdminAuthGuard>{children}</AdminAuthGuard>;
@@ -87,6 +97,27 @@ export default function AdminLayout({
     { label: "Media Library", href: "/admin/media", icon: ImageIcon },
     { label: "Site Settings", href: "/admin/settings", icon: Settings },
   ];
+
+  const handlePublishAll = async () => {
+    setIsPublishing(true);
+    setPublishResult(null);
+    try {
+      const res = await publishSite();
+      setPublishResult({
+        success: !!res.success,
+        message: res.message || 'Changes published live to Hostinger and edge CDN!'
+      });
+      setTimeout(() => setPublishResult(null), 5000);
+    } catch (err: any) {
+      setPublishResult({
+        success: false,
+        message: err?.message || 'Failed to publish changes.'
+      });
+      setTimeout(() => setPublishResult(null), 5000);
+    } finally {
+      setIsPublishing(false);
+    }
+  };
 
   const handleSignOut = () => {
     adminLogout();
@@ -185,6 +216,27 @@ export default function AdminLayout({
               <span className="text-xs font-medium text-emerald-400">Live API Dynamic Sync</span>
             </div>
             <div className="flex items-center gap-3">
+              {publishResult && (
+                <span className={`text-xs font-mono flex items-center gap-1.5 px-3 py-1 rounded-lg border ${
+                  publishResult.success 
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
+                    : 'bg-red-500/10 text-red-400 border-red-500/30'
+                }`}>
+                  {publishResult.success ? <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> : null}
+                  <span className="truncate max-w-[280px]">{publishResult.message}</span>
+                </span>
+              )}
+
+              <button
+                onClick={handlePublishAll}
+                disabled={isPublishing}
+                title="Publish and sync all saved CMS changes live to Hostinger storage and edge CDN"
+                className="flex items-center gap-2 px-3.5 py-1.5 bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-xs uppercase tracking-wider rounded-lg transition-colors shadow-sm disabled:opacity-50"
+              >
+                {isPublishing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
+                <span>{isPublishing ? "Publishing..." : "Publish Site"}</span>
+              </button>
+
               <div className="flex items-center space-x-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 <span className="text-xs font-bold text-emerald-400 font-mono">

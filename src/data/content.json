@@ -274,7 +274,8 @@
     "tagline": "Selected Work",
     "title": "Curated Projects",
     "description": "Digital systems and client flagship productions delivered with precision.",
-    "intervalSeconds": 5
+    "intervalSeconds": 5,
+    "autoPlay": true
   },
   "projectsList": [
     {
@@ -287,7 +288,7 @@
       "client": "Star Excellent Trust",
       "year": "2026",
       "url": "https://starexcellent.in/",
-      "imageUrl": "/assets/images/projects/star-excellent-academy.webp",
+      "imageUrl": "https://gold-cat-133405.hostingersite.com/uploads/asset_20260911_064931_eb8eb2876104.webp",
       "tech": [
         "Web Architecture",
         "PDF & Graphic Design",
@@ -296,7 +297,7 @@
       ],
       "shortDescription": "Enterprise educational flagship web platform, institutional PDF publications & graphic designs, and strategic social media management.",
       "description": "A comprehensive digital flagship and brand architecture for Star Excellent Academy — featuring responsive web development, custom PDF curriculum publications & promotional graphic designs, and full-funnel social media presence management.",
-      "lastUpdated": "2026-09-10"
+      "lastUpdated": "2026-09-11"
     },
     {
       "id": "2",
@@ -308,7 +309,7 @@
       "client": "Omkara Enterprises",
       "year": "2026",
       "url": "https://omkara-store.pages.dev/",
-      "imageUrl": "/assets/images/projects/omkara-store.webp",
+      "imageUrl": "https://gold-cat-133405.hostingersite.com/uploads/asset_20260911_064930_de3d66e694b5.webp",
       "tech": [
         "E-Commerce",
         "PDF & Graphic Design",
@@ -317,7 +318,7 @@
       ],
       "shortDescription": "High-conversion modern e-commerce storefront, product catalog PDF & promotional graphic design suites, and social media campaign management.",
       "description": "An elevated e-commerce storefront for Omkara Store — built with edge delivery, bespoke digital product brochures & promotional graphic designs, and targeted social media marketing & brand community management.",
-      "lastUpdated": "2026-09-10"
+      "lastUpdated": "2026-09-11"
     },
     {
       "id": "3",
@@ -381,7 +382,7 @@
   },
   "navigation": {
     "brandTitle": "ŪRDHV ASCENS",
-    "logoUrl": "/logo.webp",
+    "logoUrl": "https://gold-cat-133405.hostingersite.com/uploads/asset_20260911_065229_a06d674ff2de.webp",
     "links": [
       {
         "label": "Capabilities",
@@ -611,5 +612,6 @@
         }
       ]
     }
-  }
+  },
+  "test": "check"
 }

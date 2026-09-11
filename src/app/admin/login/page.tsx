@@ -36,6 +36,11 @@ export default function AdminLogin() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  if (typeof window !== 'undefined' && window.location.hostname.includes('pages.dev')) {
+    window.location.replace('/');
+    return null;
+  }
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const host = window.location.hostname;
@@ -71,7 +76,8 @@ export default function AdminLogin() {
 
         if (matchedAccount) {
           localStorage.setItem('urdhv_admin_token', `offline_${matchedAccount.name.toLowerCase()}_${Date.now()}`);
-          localStorage.setItem('urdhv_admin_key', password);
+          localStorage.setItem('urdhv_admin_key', 'urdhv_admin_2026_secure');
+          localStorage.setItem('urdhv_admin_password', password);
           localStorage.setItem('urdhv_admin_user', JSON.stringify({
             id: matchedAccount.id,
             name: matchedAccount.name,

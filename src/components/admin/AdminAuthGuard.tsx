@@ -13,6 +13,14 @@ export function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   const isLoginPage = normalizedPath === '/admin/login';
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const host = window.location.hostname;
+      if (host.includes('pages.dev')) {
+        window.location.replace('/');
+        return;
+      }
+    }
+
     async function checkAuth() {
       if (isLoginPage) {
         setIsChecking(false);
