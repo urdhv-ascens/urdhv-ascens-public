@@ -23,6 +23,11 @@ export function Hero({ onOpenCourseModal }: HeroProps) {
   const secondaryCtaLink = heroContent.secondaryCtaLink || '#contact';
 
   const handlePrimaryClick = (e: React.MouseEvent) => {
+    const isRegistered = typeof window !== 'undefined' && localStorage.getItem('urdhv_reader_registered') === 'true';
+    if (isRegistered) {
+      window.location.href = primaryCtaLink;
+      return;
+    }
     if (primaryCtaAction === 'modal' && onOpenCourseModal) {
       e.preventDefault();
       onOpenCourseModal();
