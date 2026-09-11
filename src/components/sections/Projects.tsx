@@ -14,7 +14,11 @@ import contentData from "@/data/content.json";
 import { useCMSContent } from "@/core/CMSContentContext";
 import type { ProjectItem } from "@/core/types";
 
-export function Projects() {
+interface ProjectsProps {
+  onOpenCourseModal?: () => void;
+}
+
+export function Projects({ onOpenCourseModal }: ProjectsProps = {}) {
   const { content } = useCMSContent();
   const projectsMeta = content.projects || (contentData as any).projects || {
     tagline: "SELECTED WORK",
@@ -138,6 +142,24 @@ export function Projects() {
 
   const currentProject = projects[currentIndex] || projects[0];
 
+  // Intercept click on AI Course project to enforce one-time registration form
+  const handleProjectAction = (e: React.MouseEvent, project: ProjectItem) => {
+    const isAiCourse = 
+      project.slug === 'urdhv-ai-courses' || 
+      (project.url && project.url.includes('viewer')) ||
+      (project.name && project.name.toLowerCase().includes('ai courses')) ||
+      (project.name && project.name.toLowerCase().includes('curriculum'));
+
+    if (isAiCourse) {
+      const isAlreadyRegistered = typeof window !== 'undefined' && localStorage.getItem('urdhv_reader_registered') === 'true';
+      if (!isAlreadyRegistered && onOpenCourseModal) {
+        e.preventDefault();
+        onOpenCourseModal();
+        return;
+      }
+    }
+  };
+
   return (
     <section 
       id="projects" 
@@ -188,9 +210,9 @@ export function Projects() {
           )}
         </div>
 
-        {/* Slideshow Card Container */}
+        {/* Slideshow Card Container with Constant Dimensions */}
         <div 
-          className="relative rounded-xl sm:rounded-2xl bg-black/90 border border-zinc-850 p-4 sm:p-8 lg:p-14 overflow-hidden shadow-2xl transition-all duration-500"
+          className="relative rounded-xl sm:rounded-2xl bg-black/90 border border-zinc-850 p-4 sm:p-8 lg:p-12 overflow-hidden shadow-2xl transition-all duration-500 min-h-[580px] lg:min-h-[520px] flex flex-col justify-between"
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
@@ -205,19 +227,19 @@ export function Projects() {
             </div>
           )}
 
-          {/* Slide Content Grid with Smooth Transition */}
+          {/* Slide Content Grid with Stable Dimensions and Smooth Transition */}
           <div 
-            className={`grid lg:grid-cols-12 gap-6 lg:gap-12 items-center transition-opacity duration-300 ${
+            className={`grid lg:grid-cols-12 gap-6 lg:gap-12 items-stretch transition-opacity duration-300 flex-1 ${
               isTransitioning ? 'opacity-40' : 'opacity-100'
             }`}
           >
             
-            {/* Left Content Column (7 cols) */}
-            <div className="lg:col-span-7 flex flex-col justify-between space-y-4 sm:space-y-6">
+            {/* Left Content Column (7 cols) - strictly constant height allocation */}
+            <div className="lg:col-span-7 flex flex-col justify-between min-h-[380px] lg:min-h-[440px] py-1">
               
               <div className="space-y-3 sm:space-y-4">
                 {/* Meta row: Index + Category + Status */}
-                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 h-7">
                   <span className="text-[11px] sm:text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md border border-emerald-500/20">
                     {String(currentIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
                   </span>
@@ -231,45 +253,54 @@ export function Projects() {
                   )}
                 </div>
 
-                {/* Project Title */}
-                <h3 className="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
-                  {currentProject.name}
-                </h3>
+                {/* Project Title with stable 2-line height reservation */}
+                <div className="min-h-[3.25rem] sm:min-h-[4.5rem] flex items-center">
+                  <h3 className="text-xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight line-clamp-2">
+                    {currentProject.name}
+                  </h3>
+                </div>
 
-                {/* Client Reference */}
-                {currentProject.client && (
-                  <p className="text-xs sm:text-sm font-mono text-zinc-500">
-                    Client: <span className="text-zinc-300">{currentProject.client}</span>
+                {/* Client Reference with stable height reservation */}
+                <div className="h-5 flex items-center">
+                  {currentProject.client ? (
+                    <p className="text-xs sm:text-sm font-mono text-zinc-500 truncate">
+                      Client: <span className="text-zinc-300">{currentProject.client}</span>
+                    </p>
+                  ) : (
+                    <p className="text-xs sm:text-sm font-mono text-zinc-600 truncate">
+                      System: <span className="text-zinc-400">Ūrdhv Ascens Flagship</span>
+                    </p>
+                  )}
+                </div>
+
+                {/* Narrative Description with fixed height & line-clamp */}
+                <div className="h-[4.5rem] sm:h-[5.5rem] overflow-hidden">
+                  <p className="text-zinc-300 text-xs sm:text-sm md:text-base leading-relaxed line-clamp-3">
+                    {currentProject.description || currentProject.shortDescription}
                   </p>
-                )}
-
-                {/* Narrative Description */}
-                <p className="text-zinc-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-xl">
-                  {currentProject.description || currentProject.shortDescription}
-                </p>
+                </div>
               </div>
 
-              {/* Tech Stack Pills */}
-              {currentProject.tech && currentProject.tech.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1 sm:pt-2">
-                  {currentProject.tech.map((tag: string, tIdx: number) => (
-                    <span
-                      key={tIdx}
-                      className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-mono text-zinc-300 bg-zinc-900 border border-zinc-800"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
+              {/* Tech Stack Pills with constant minimum height */}
+              <div className="min-h-[2.5rem] flex flex-wrap items-center gap-1.5 sm:gap-2 pt-2">
+                {currentProject.tech && currentProject.tech.length > 0 && currentProject.tech.slice(0, 5).map((tag: string, tIdx: number) => (
+                  <span
+                    key={tIdx}
+                    className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-md text-[11px] sm:text-xs font-mono text-zinc-300 bg-zinc-900 border border-zinc-800"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
 
-              {/* Action Buttons: Direct Project URL entered in Admin CMS */}
-              <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 pt-2 sm:pt-4">
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 pt-3">
                 {currentProject.url ? (
                   <a
                     href={currentProject.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={(e) => handleProjectAction(e, currentProject)}
                     className="inline-flex items-center space-x-1.5 sm:space-x-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-[11px] sm:text-xs uppercase tracking-wider transition-colors"
                   >
                     <span>Visit Project</span>
@@ -294,9 +325,9 @@ export function Projects() {
               </div>
             </div>
 
-            {/* Right Showcase Preview Frame (5 cols) */}
-            <div className="lg:col-span-5 relative">
-              <div className="relative aspect-[16/11] w-full rounded-xl bg-zinc-900/90 border border-zinc-800 p-6 flex flex-col justify-between overflow-hidden group">
+            {/* Right Showcase Preview Frame (5 cols) with constant height */}
+            <div className="lg:col-span-5 relative h-full min-h-[300px] lg:min-h-[440px] flex items-center">
+              <div className="relative w-full h-[300px] sm:h-[340px] lg:h-[420px] rounded-xl bg-zinc-900/90 border border-zinc-800 p-6 flex flex-col justify-between overflow-hidden group">
                 
                 {/* Visual Glass Accents */}
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-black pointer-events-none" />

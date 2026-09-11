@@ -34,11 +34,11 @@ export default function AdminLayout({
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const host = window.location.hostname;
-      // If accessing from Cloudflare Pages (urdhvascens.pages.dev) or external public domain,
-      // strictly forbid admin access on pages.dev and redirect to dedicated Hostinger admin portal.
-      if (host.includes('pages.dev') || (!host.includes('hostingersite.com') && host !== 'localhost' && host !== '127.0.0.1')) {
-        setIsRedirecting(true);
-        window.location.replace('https://gold-cat-133405.hostingersite.com/admin/login/');
+      // If accessing from Cloudflare Pages (urdhvascens.pages.dev),
+      // strictly forbid admin access on pages.dev and redirect back to the public homepage.
+      // Only https://gold-cat-133405.hostingersite.com/admin/login/ is for admin access.
+      if (host.includes('pages.dev')) {
+        window.location.replace('/');
         return;
       }
     }

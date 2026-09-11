@@ -40,10 +40,23 @@ async function hydrate() {
           ...localContent,
           ...remoteData,
           siteSettings: { ...(localContent.siteSettings || {}), ...(remoteData.siteSettings || {}) },
+          hero: {
+            ...(localContent.hero || {}),
+            ...(remoteData.hero || {}),
+            backgroundImage: (localContent.hero?.backgroundImage && localContent.hero.backgroundImage !== '/assets/images/favicon.webp')
+              ? localContent.hero.backgroundImage
+              : (remoteData.hero?.backgroundImage || '/assets/images/hero-bg.webp'),
+            backgroundBlur: localContent.hero?.backgroundBlur ?? 4,
+            backgroundOpacity: localContent.hero?.backgroundOpacity ?? 55
+          },
           about: {
             ...(localContent.about || {}),
             ...(remoteData.about || {}),
             imageUrl: localContent.about?.imageUrl || '/assets/images/About-Us.webp'
+          },
+          legal: {
+            ...(remoteData.legal || {}),
+            ...(localContent.legal || {})
           },
           // For projectsList, merge item by item, preserving local imageUrl and descriptions if remote has empty string
           projectsList: (localContent.projectsList || []).map((localProj) => {

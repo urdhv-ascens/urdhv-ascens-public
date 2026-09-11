@@ -12,9 +12,9 @@ export function Hero({ onOpenCourseModal }: HeroProps) {
   const { content } = useCMSContent();
   const heroContent = content.hero || {};
 
-  const bgImage = heroContent.backgroundImage || '/assets/images/favicon.webp';
-  const blurAmount = heroContent.backgroundBlur ?? 32;
-  const opacityVal = (heroContent.backgroundOpacity ?? 20) / 100;
+  const bgImage = heroContent.backgroundImage || '/assets/images/hero-bg.webp';
+  const blurAmount = heroContent.backgroundBlur ?? 4;
+  const opacityVal = (heroContent.backgroundOpacity ?? 55) / 100;
 
   const primaryCtaText = heroContent.primaryCtaText || 'Access AI Courses (Free)';
   const primaryCtaLink = heroContent.primaryCtaLink || 'https://urdhv-viewer.pages.dev';
@@ -36,18 +36,19 @@ export function Hero({ onOpenCourseModal }: HeroProps) {
 
   return (
     <section className="min-h-[85vh] flex items-center justify-center pt-24 pb-16 relative overflow-hidden bg-black text-white">
-      {/* Blurred background image - editable through Admin Panel */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10 flex items-center justify-center">
+      {/* Background canvas - full-bleed, clearly visible and atmospheric */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
         <div
-          className="w-[480px] sm:w-[680px] md:w-[880px] aspect-square bg-center bg-no-repeat bg-contain transition-all duration-700 pointer-events-none select-none"
+          className="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-700 pointer-events-none select-none"
           style={{
             backgroundImage: `url('${bgImage}')`,
             filter: `blur(${blurAmount}px)`,
             opacity: opacityVal,
-            transform: 'scale(1.1)',
+            transform: 'scale(1.05)',
           }}
         />
-        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+        {/* Subtle dark vignette overlay so typography remains razor sharp while art is vividly visible */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black pointer-events-none" />
       </div>
       
       <div className="container mx-auto px-6 md:px-12 text-center flex flex-col items-center">

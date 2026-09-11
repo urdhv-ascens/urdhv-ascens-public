@@ -20,7 +20,7 @@ export default function Home() {
       <Capabilities onOpenCourseModal={() => setIsCourseModalOpen(true)} />
       
       <About />
-      <Projects />
+      <Projects onOpenCourseModal={() => setIsCourseModalOpen(true)} />
       
       {/* Precision Services Infinite Two-Row Small Card Carousel */}
       <Services onOpenCourseModal={() => setIsCourseModalOpen(true)} />

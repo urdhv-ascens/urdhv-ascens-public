@@ -281,7 +281,12 @@ export function Capabilities({
   }, []);
 
   const handleCardClick = (_item: CapabilityCardItem) => {
-    window.open('https://wa.me/917891085020', '_blank', 'noopener,noreferrer');
+    const el = document.getElementById('contact') || document.getElementById('dialogue');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.hash = '#contact';
+    }
   };
 
   return (

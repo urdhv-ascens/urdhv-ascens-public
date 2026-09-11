@@ -39,8 +39,10 @@ export default function AdminLogin() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const host = window.location.hostname;
-      if (host.includes('pages.dev') || (!host.includes('hostingersite.com') && host !== 'localhost' && host !== '127.0.0.1')) {
-        window.location.replace('https://gold-cat-133405.hostingersite.com/admin/login/');
+      // If accessing from Cloudflare Pages, redirect back to public website
+      // Only https://gold-cat-133405.hostingersite.com/admin/login/ is for admin access
+      if (host.includes('pages.dev')) {
+        window.location.replace('/');
       }
     }
   }, []);

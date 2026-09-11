@@ -15,9 +15,11 @@ interface LegalContentProps {
 export function LegalContent({ policyKey, iconType }: LegalContentProps) {
   const { content } = useCMSContent();
 
-  const legalConfig = (content.legal && content.legal[policyKey])
-    ? content.legal[policyKey]
-    : ((contentData as any).legal && (contentData as any).legal[policyKey]) as (LegalPageContent & { description?: string });
+  const rawLegal = content.legal || (contentData as any).legal || {};
+  const legalConfig = (rawLegal[policyKey] || 
+    (policyKey === 'privacyPolicy' ? (rawLegal.privacy || rawLegal.privacyPolicy) :
+     policyKey === 'termsAndConditions' ? (rawLegal.terms || rawLegal.termsAndConditions) :
+     rawLegal.refundPolicy)) as (LegalPageContent & { description?: string; effectiveDate?: string });
 
   const title = legalConfig?.title || (
     policyKey === 'privacyPolicy' ? 'Privacy Policy' :
@@ -25,8 +27,8 @@ export function LegalContent({ policyKey, iconType }: LegalContentProps) {
     'Cancellation & Refund Policy'
   );
 
-  const lastUpdated = legalConfig?.lastUpdated || 'Effective Date: September 2026';
-  const description = (legalConfig as any)?.description || 'Clear policy guidelines and terms.';
+  const lastUpdated = legalConfig?.lastUpdated || legalConfig?.effectiveDate || 'Effective Date: September 2026';
+  const description = (legalConfig as any)?.description || (legalConfig as any)?.subtitle || 'Comprehensive enterprise legal framework and operating covenants.';
   const sections = legalConfig?.sections || [];
 
   const Icon = iconType === 'shield' ? Shield : iconType === 'file' ? FileText : RefreshCcw;

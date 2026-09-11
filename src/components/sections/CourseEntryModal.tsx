@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { X, Sparkles, GraduationCap, ArrowRight, Loader2, Lock, CheckCircle2 } from 'lucide-react';
+import { X, Sparkles, ArrowRight, Loader2, Lock, CheckCircle2 } from 'lucide-react';
 import { registerReader } from '@/lib/api-client';
 import { useCMSContent } from '@/core/CMSContentContext';
 
@@ -157,41 +157,6 @@ export function CourseEntryModal({
         )}
 
         <form onSubmit={handleSubmit} className="space-y-3.5">
-          {/* Course Track Selector */}
-          <div className="grid grid-cols-2 gap-2.5">
-            <button
-              type="button"
-              onClick={() => setCourseSelected('students-ai')}
-              className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
-                courseSelected === 'students-ai'
-                  ? 'bg-emerald-500/15 border-emerald-500/40 text-white'
-                  : 'bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:border-zinc-700'
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold text-white">Students AI Series</span>
-                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              </div>
-              <span className="text-[11px] text-zinc-400">6 Visual Booklets</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setCourseSelected('teachers-ai')}
-              className={`p-3 rounded-xl border text-left transition-all flex flex-col justify-between ${
-                courseSelected === 'teachers-ai'
-                  ? 'bg-emerald-500/15 border-emerald-500/40 text-white'
-                  : 'bg-zinc-900/60 border-zinc-800 text-zinc-400 hover:border-zinc-700'
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-bold text-white">Teachers AI Toolkit</span>
-                <GraduationCap className="w-3.5 h-3.5 text-emerald-400" />
-              </div>
-              <span className="text-[11px] text-zinc-400">6 Visual Booklets</span>
-            </button>
-          </div>
-
           {/* Targeted Demographic & Ad-Relevant Profile Fields (Compulsory) */}
           <div className="space-y-3 pt-1">
             {/* Full Name */}
