@@ -383,8 +383,22 @@ export async function deleteReader(id: string) {
   return await res.json();
 }
 
-export function getReadersCsvExportUrl(): string {
-  return `${getApiBase()}/readers.php?export=csv`;
+export async function downloadReadersCsv(): Promise<void> {
+  const res = await fetch(`${getApiBase()}/readers.php?export=csv`, {
+    headers: getAuthHeaders(),
+  });
+  if (!res.ok) {
+    throw new Error(`CSV export failed: ${res.status} ${res.statusText}`);
+  }
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `urdhv_targeted_leads_${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 // 6. ADS API

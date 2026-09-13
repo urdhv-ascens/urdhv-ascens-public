@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import type { ReaderRecord } from '@/core/types';
-import { getReaders, deleteReader, getReadersCsvExportUrl } from '@/lib/api-client';
+import { getReaders, deleteReader, downloadReadersCsv } from '@/lib/api-client';
 import { Users, Download, Search, Trash2, Loader2, RefreshCw, CheckCircle2 } from 'lucide-react';
 
 export default function ReadersAdminPage() {
@@ -11,6 +11,21 @@ export default function ReadersAdminPage() {
   const [search, setSearch] = useState('');
   const [courseFilter, setCourseFilter] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExportCsv = async () => {
+    if (isExporting) return;
+    setIsExporting(true);
+    try {
+      await downloadReadersCsv();
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'CSV export failed.';
+      alert(message);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const loadReaders = async () => {
     setLoading(true);
@@ -64,15 +79,18 @@ export default function ReadersAdminPage() {
         </div>
 
         <div className="flex items-center space-x-3">
-          <a
-            href={getReadersCsvExportUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 px-3.5 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-xs font-semibold text-zinc-200 transition-colors"
+          <button
+            onClick={handleExportCsv}
+            disabled={isExporting}
+            className="inline-flex items-center space-x-2 px-3.5 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-xs font-semibold text-zinc-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Download className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Export CSV</span>
-          </a>
+            {isExporting ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-emerald-400" />
+            ) : (
+              <Download className="w-3.5 h-3.5 text-emerald-400" />
+            )}
+            <span>{isExporting ? 'Exporting...' : 'Export CSV'}</span>
+          </button>
           <button
             onClick={loadReaders}
             className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white"
