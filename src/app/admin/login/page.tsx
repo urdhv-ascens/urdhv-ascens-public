@@ -35,11 +35,7 @@ export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  if (typeof window !== 'undefined' && window.location.hostname.includes('pages.dev')) {
-    window.location.replace('/');
-    return null;
-  }
+  const [isPagesDev, setIsPagesDev] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -47,10 +43,15 @@ export default function AdminLogin() {
       // If accessing from Cloudflare Pages, redirect back to public website
       // Only https://gold-cat-133405.hostingersite.com/admin/login/ is for admin access
       if (host.includes('pages.dev')) {
+        setIsPagesDev(true);
         window.location.replace('/');
       }
     }
   }, []);
+
+  if (isPagesDev) {
+    return null;
+  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

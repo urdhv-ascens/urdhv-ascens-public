@@ -24,7 +24,7 @@
     "description": "At Ūrdhv Ascens, we don't just build websites or design logos - we architect digital legacies. We believe that aesthetics without robust functionality is merely decoration, and robust functionality without aesthetics is a missed connection. Our philosophy bridges this gap, delivering digital experiences that are as performant as they are beautiful.",
     "stats": [
       {
-        "value": "24+",
+        "value": "11+",
         "label": "Enterprise Projects"
       },
       {
@@ -46,7 +46,7 @@
     "badges": {
       "badge1": "STUDIO PHILOSOPHY",
       "badge2": "DIGITAL ARCHITECTURE",
-      "badge3": "EST. 2026"
+      "badge3": "EST. 2025"
     }
   },
   "capabilities": {
@@ -274,7 +274,8 @@
     "tagline": "Selected Work",
     "title": "Curated Projects",
     "description": "Digital systems and client flagship productions delivered with precision.",
-    "intervalSeconds": 5
+    "intervalSeconds": 4,
+    "autoPlay": true
   },
   "projectsList": [
     {
@@ -285,9 +286,9 @@
       "status": "ACTIVE",
       "displayOrder": 1,
       "client": "Star Excellent Trust",
-      "year": "2026",
+      "year": "2025",
       "url": "https://starexcellent.in/",
-      "imageUrl": "https://gold-cat-133405.hostingersite.com/uploads/asset_20260911_064931_eb8eb2876104.webp",
+      "imageUrl": "https://gold-cat-133405.hostingersite.com/uploads/star-excellent-academy.webp",
       "tech": [
         "Web Architecture",
         "PDF & Graphic Design",
@@ -296,7 +297,7 @@
       ],
       "shortDescription": "Enterprise educational flagship web platform, institutional PDF publications & graphic designs, and strategic social media management.",
       "description": "A comprehensive digital flagship and brand architecture for Star Excellent Academy — featuring responsive web development, custom PDF curriculum publications & promotional graphic designs, and full-funnel social media presence management.",
-      "lastUpdated": "2026-09-10"
+      "lastUpdated": "2026-09-11"
     },
     {
       "id": "2",
@@ -308,7 +309,7 @@
       "client": "Omkara Enterprises",
       "year": "2026",
       "url": "https://omkara-store.pages.dev/",
-      "imageUrl": "https://gold-cat-133405.hostingersite.com/uploads/asset_20260911_064930_de3d66e694b5.webp",
+      "imageUrl": "https://gold-cat-133405.hostingersite.com/uploads/omkara-store.webp",
       "tech": [
         "E-Commerce",
         "PDF & Graphic Design",
@@ -317,7 +318,7 @@
       ],
       "shortDescription": "High-conversion modern e-commerce storefront, product catalog PDF & promotional graphic design suites, and social media campaign management.",
       "description": "An elevated e-commerce storefront for Omkara Store — built with edge delivery, bespoke digital product brochures & promotional graphic designs, and targeted social media marketing & brand community management.",
-      "lastUpdated": "2026-09-10"
+      "lastUpdated": "2026-09-11"
     },
     {
       "id": "3",
@@ -329,7 +330,7 @@
       "client": "Enhance Doorstep",
       "year": "2026",
       "url": "https://enhance-doorstep.github.io/Enhance-Doorstep/",
-      "imageUrl": "/assets/images/projects/enhance-doorstep.webp",
+      "imageUrl": "https://gold-cat-133405.hostingersite.com/uploads/enhance-doorstep.webp",
       "tech": [
         "Web Architecture",
         "PDF & Graphic Design",
@@ -338,7 +339,7 @@
       ],
       "shortDescription": "Modern doorstep service flagship website, service rate cards & marketing PDF graphic designs, and active social media management.",
       "description": "A luxury home beauty salon and doorstep self-care service platform — featuring bespoke aesthetic treatments at home, curated beauty routines, and brand identity expressed in black, golden, and Indian line abstract art design.",
-      "lastUpdated": "2026-09-10"
+      "lastUpdated": "2026-09-11"
     },
     {
       "id": "4",
@@ -350,7 +351,7 @@
       "client": "Ūrdhv Ascens Educational Network",
       "year": "2026",
       "url": "https://urdhv-viewer.pages.dev/",
-      "imageUrl": "/assets/images/projects/urdhv-ai-courses.webp",
+      "imageUrl": "https://gold-cat-133405.hostingersite.com/uploads/urdhv-ai-courses.webp",
       "tech": [
         "AI Courses",
         "HTML5 Canvas",
@@ -359,7 +360,7 @@
       ],
       "shortDescription": "Decoupled 12-booklet AI curriculum network powered by custom HTML5 Canvas rendering, bounded memory management, and zero-proxy CDN architecture.",
       "description": "Our flagship open-access educational ecosystem featuring free AI learning courses, high-performance HTML5 Canvas reader engine, and interactive WebP booklet distribution.",
-      "lastUpdated": "2026-09-10"
+      "lastUpdated": "2026-09-11"
     }
   ],
   "contact": {
@@ -368,9 +369,9 @@
     "heading": "Let's Build Something That Endures.",
     "description": "We partner with a select number of clients each quarter to ensure every project receives the attention it deserves. If you're ready to elevate your digital presence, we're ready to listen.",
     "email": "urdhvascens@gmail.com",
-    "phone": "+91 7891085020 / +91 80037 53540",
+    "phone": "+91 7891085020",
     "location": "India",
-    "secondaryPhone": "+91 80037 53540",
+    "secondaryPhone": "+91 8003753540",
     "responseTime": "Replies typically within 12 hours"
   },
   "presence": {
