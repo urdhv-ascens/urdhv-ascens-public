@@ -27,6 +27,16 @@ function getCachedContent(): ContentRecord | null {
   try {
     const raw = localStorage.getItem(CACHE_KEY);
     if (!raw) return null;
+    const tsStr = localStorage.getItem(CACHE_TS_KEY);
+    // Expire cache after 15 minutes to prevent perpetual stale state
+    if (tsStr) {
+      const age = Date.now() - Number(tsStr);
+      if (age > 15 * 60 * 1000) {
+        localStorage.removeItem(CACHE_KEY);
+        localStorage.removeItem(CACHE_TS_KEY);
+        return null;
+      }
+    }
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === 'object') return parsed as ContentRecord;
   } catch {
